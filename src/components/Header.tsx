@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Search, ShoppingCart, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import CartModal from "@/components/CartModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const navigation = [
     { name: "Shop", href: "/" },
@@ -68,10 +70,15 @@ const Header = () => {
             <Button variant="ghost" size="sm" className="hover:bg-dessert-secondary/50 hover:scale-105 transition-all duration-300">
               <User className="h-5 w-5 text-dessert-primary" />
             </Button>
-            <Button variant="ghost" size="sm" className="relative hover:bg-dessert-secondary/50 hover:scale-105 transition-all duration-300">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="relative hover:bg-dessert-secondary/50 hover:scale-105 transition-all duration-300"
+              onClick={() => setIsCartOpen(true)}
+            >
               <ShoppingCart className="h-5 w-5 text-dessert-primary" />
               <span className="absolute -top-1 -right-1 h-5 w-5 bg-accent-gradient rounded-full text-xs flex items-center justify-center text-white font-medium shadow-glow animate-pulse">
-                0
+                3
               </span>
             </Button>
           </div>
@@ -108,6 +115,9 @@ const Header = () => {
           </div>
         )}
       </div>
+      
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 };
