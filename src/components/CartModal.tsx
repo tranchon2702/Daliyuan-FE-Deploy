@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
@@ -18,6 +19,8 @@ interface CartModalProps {
 }
 
 const CartModal = ({ isOpen, onClose }: CartModalProps) => {
+  const navigate = useNavigate();
+  
   // Mock cart data - in real app this would come from context/state management
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
@@ -62,9 +65,14 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
     }).format(price);
   };
 
+  const handleViewCart = () => {
+    onClose();
+    navigate('/cart');
+  };
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="left" className="w-full sm:max-w-md">
+      <SheetContent side="right" className="w-full sm:max-w-sm">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5" />
@@ -152,7 +160,10 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
                   <Button className="w-full" size="lg">
                     Thanh Toán
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={onClose}>
+                  <Button variant="outline" className="w-full" onClick={handleViewCart}>
+                    Xem Giỏ Hàng
+                  </Button>
+                  <Button variant="ghost" className="w-full" onClick={onClose}>
                     Tiếp Tục Mua Sắm
                   </Button>
                 </div>
