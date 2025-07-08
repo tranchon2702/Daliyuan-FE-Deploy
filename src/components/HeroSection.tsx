@@ -21,11 +21,6 @@ const HeroSection = () => {
       {/* Hero Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex items-center justify-center">
         <div className="text-center text-white animate-slide-up">
-          <div className="mb-6">
-            <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium border border-white/20">
-              ✨ Premium Artisan Collection
-            </span>
-          </div>
           <h2 className="font-display text-5xl lg:text-7xl font-bold mb-6 leading-tight">
             Artisan
             <span className="block bg-accent-gradient bg-clip-text text-transparent">
@@ -40,9 +35,6 @@ const HeroSection = () => {
             <button className="group bg-accent-gradient text-white px-10 py-4 rounded-full font-semibold hover:shadow-glow transition-all duration-300 hover:scale-105 transform">
               <span className="mr-2">Khám Phá Ngay</span>
               <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
-            </button>
-            <button className="bg-white/10 backdrop-blur-sm text-white px-10 py-4 rounded-full font-semibold border border-white/30 hover:bg-white/20 transition-all duration-300 hover:scale-105">
-              Xem Bộ Sưu Tập
             </button>
           </div>
         </div>

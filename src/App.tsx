@@ -4,13 +4,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import ProductDetail from "./pages/ProductDetail";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import ProductDetail from "./pages/ProductDetail/ProductDetail";
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
+import Cart from "./pages/Cart/Cart";
+import Checkout from "./pages/Checkout/Checkout";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import MyAccount from "./pages/MyAccount/MyAccount";
 import NotFound from "./pages/NotFound";
+import PaymentMethods from "./pages/PaymentMethods/PaymentMethods";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ const App = () => (
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/my-account" element={<MyAccount />} />
+          <Route path="/hinh-thuc-thanh-toan" element={<PaymentMethods />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

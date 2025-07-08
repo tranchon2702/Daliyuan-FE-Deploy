@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,63 +8,66 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Plus, Minus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
-import chocolateCakeImg from "@/assets/chocolate-cake.jpg";
-import blackForestImg from "@/assets/black-forest.jpg";
-import tiramisuImg from "@/assets/tiramisu.jpg";
+import {
+  initialCartItems,
+  formatPrice,
+  calculateSubtotal,
+  calculateShipping,
+  calculateDiscount,
+  calculateTotal,
+  updateCartItemQuantity,
+  removeCartItem,
+  validatePromoCode,
+  isCartEmpty,
+  getCartItemCount,
+  saveCartToStorage,
+  loadCartFromStorage,
+  PAYMENT_METHODS,
+  FREE_SHIPPING_THRESHOLD
+} from "./Cart.script.js";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: "1",
-      name: "Black Forest Hộp Thiếc",
-      price: 399600,
-      quantity: 2,
-      image: blackForestImg,
-    },
-    {
-      id: "2",
-      name: "Chocolate Dream Cake",
-      price: 243000,
-      quantity: 1,
-      image: chocolateCakeImg,
-    },
-    {
-      id: "3",
-      name: "Tiramisu Classic",
-      price: 156000,
-      quantity: 3,
-      image: tiramisuImg,
-    },
-  ]);
-
+  const [cartItems, setCartItems] = useState(initialCartItems);
   const [promoCode, setPromoCode] = useState("");
+  const [appliedPromoCode, setAppliedPromoCode] = useState("");
 
-  const updateQuantity = (id: string, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      removeItem(id);
-      return;
+  // Load cart from localStorage on component mount
+  useEffect(() => {
+    const savedCart = loadCartFromStorage();
+    setCartItems(savedCart);
+  }, []);
+
+  // Save cart to localStorage whenever cartItems change
+  useEffect(() => {
+    saveCartToStorage(cartItems);
+  }, [cartItems]);
+
+  const handleUpdateQuantity = (id, newQuantity) => {
+    const updatedCart = updateCartItemQuantity(cartItems, id, newQuantity);
+    setCartItems(updatedCart);
+  };
+
+  const handleRemoveItem = (id) => {
+    const updatedCart = removeCartItem(cartItems, id);
+    setCartItems(updatedCart);
+  };
+
+  const handleApplyPromoCode = () => {
+    if (validatePromoCode(promoCode)) {
+      setAppliedPromoCode(promoCode);
+      setPromoCode("");
+    } else {
+      alert("Mã giảm giá không hợp lệ!");
     }
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
   };
 
-  const removeItem = (id: string) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
+  // Calculate order totals
+  const subtotal = calculateSubtotal(cartItems);
+  const shipping = calculateShipping(subtotal);
+  const discount = calculateDiscount(appliedPromoCode, subtotal);
+  const total = calculateTotal(cartItems, appliedPromoCode);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN').format(price) + 'VND';
-  };
-
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = 30000; // 30,000 VND shipping fee
-  const discount = 0; // No discount for now
-  const total = subtotal + shipping - discount;
-
-  if (cartItems.length === 0) {
+  if (isCartEmpty(cartItems)) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -104,7 +107,7 @@ const Cart = () => {
           <div>
             <h1 className="font-serif text-3xl font-bold">Giỏ hàng</h1>
             <p className="text-muted-foreground">
-              {cartItems.length} sản phẩm trong giỏ hàng
+              {getCartItemCount(cartItems)} sản phẩm trong giỏ hàng
             </p>
           </div>
         </div>
@@ -139,7 +142,7 @@ const Cart = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
@@ -149,7 +152,7 @@ const Cart = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
@@ -166,7 +169,7 @@ const Cart = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => handleRemoveItem(item.id)}
                     className="text-destructive hover:text-destructive"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -193,23 +196,6 @@ const Cart = () => {
                 Tóm tắt đơn hàng
               </h2>
 
-              {/* Promo Code */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">
-                  Mã giảm giá
-                </label>
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="Nhập mã giảm giá"
-                    value={promoCode}
-                    onChange={(e) => setPromoCode(e.target.value)}
-                  />
-                  <Button variant="outline">
-                    Áp dụng
-                  </Button>
-                </div>
-              </div>
-
               <Separator className="mb-6" />
 
               {/* Order Details */}
@@ -235,16 +221,6 @@ const Cart = () => {
                 </div>
               </div>
 
-              {/* Shipping Info */}
-              <div className="bg-dessert-light/30 p-4 rounded-lg mb-6">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Badge variant="secondary">Miễn phí vận chuyển</Badge>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Đơn hàng từ 500,000 VND được miễn phí vận chuyển
-                </p>
-              </div>
-
               {/* Checkout Button */}
               <Link to="/checkout">
                 <Button className="w-full" size="lg">
@@ -252,24 +228,7 @@ const Cart = () => {
                 </Button>
               </Link>
 
-              {/* Payment Methods */}
-              <div className="mt-6 text-center">
-                <p className="text-xs text-muted-foreground mb-2">
-                  Chúng tôi chấp nhận
-                </p>
-                <div className="flex justify-center space-x-2">
-                  {["visa", "mastercard", "momo", "zalopay"].map((method) => (
-                    <div
-                      key={method}
-                      className="w-8 h-6 bg-muted rounded flex items-center justify-center"
-                    >
-                      <span className="text-xs font-bold uppercase">
-                        {method.slice(0, 2)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+
             </Card>
           </div>
         </div>

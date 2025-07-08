@@ -1,57 +1,25 @@
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Heart, ShoppingCart, Star, Plus, Minus } from "lucide-react";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Heart, ShoppingCart, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import chocolateCakeImg from "@/assets/chocolate-cake.jpg";
-import blackForestImg from "@/assets/black-forest.jpg";
-import tiramisuImg from "@/assets/tiramisu.jpg";
+import { useProductDetail } from "./ProductDetails.script";
 
 const ProductDetail = () => {
-  const { id } = useParams();
-  const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
-
-  // Mock product data - in real app this would come from API
-  const product = {
-    id: id || "1",
-    name: "Black Forest Hộp Thiếc",
-    price: "399,600VND",
-    originalPrice: "450,000VND",
-    rating: 4.8,
-    reviews: 24,
-    description: "Bánh Black Forest hộp thiếc cao cấp với lớp kem tươi mềm mịn, cherry tươi và chocolate đen Bỉ nguyên chất. Được đóng gói trong hộp thiếc sang trọng, thích hợp làm quà tặng.",
-    images: [blackForestImg, chocolateCakeImg, tiramisuImg],
-    inStock: true,
-    category: "Bánh Hộp Thiếc",
-    ingredients: ["Kem tươi", "Cherry tươi", "Chocolate đen Bỉ", "Bánh quy", "Rượu rum"],
-    nutritionInfo: "Calories: 350 per serving",
-    weight: "500g",
-    serves: "4-6 người",
-  };
-
-  const relatedProducts = [
-    {
-      id: "2",
-      name: "Chocolate Dream Cake",
-      price: "243,000VND",
-      image: chocolateCakeImg,
-    },
-    {
-      id: "3",
-      name: "Tiramisu Classic",
-      price: "156,000VND",
-      image: tiramisuImg,
-    },
-  ];
-
-  const handleQuantityChange = (change: number) => {
-    setQuantity(Math.max(1, quantity + change));
-  };
+  const {
+    product,
+    relatedProducts,
+    quantity,
+    selectedImage,
+    handleQuantityChange,
+    handleImageSelect,
+    handleAddToCart,
+    handleAddToWishlist,
+    handleWriteReview,
+  } = useProductDetail();
 
   return (
     <div className="min-h-screen bg-background">
@@ -92,7 +60,7 @@ const ProductDetail = () => {
               {product.images.map((image, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedImage(index)}
+                  onClick={() => handleImageSelect(index)}
                   className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
                     selectedImage === index
                       ? "border-dessert-primary"
@@ -115,26 +83,9 @@ const ProductDetail = () => {
               <Badge variant="secondary" className="mb-2">
                 {product.category}
               </Badge>
-              <h1 className="font-serif text-3xl font-bold text-foreground mb-2">
+              <h1 className="font-serif text-3xl font-bold text-foreground mb-4">
                 {product.name}
               </h1>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 ${
-                        i < Math.floor(product.rating)
-                          ? "fill-dessert-accent text-dessert-accent"
-                          : "text-muted-foreground"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  {product.rating} ({product.reviews} đánh giá)
-                </span>
-              </div>
             </div>
 
             <div className="space-y-2">
@@ -184,18 +135,18 @@ const ProductDetail = () => {
               </div>
 
               <div className="flex space-x-3">
-                <Button className="flex-1" size="lg">
+                <Button className="flex-1" size="lg" onClick={handleAddToCart}>
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   Thêm vào giỏ hàng
                 </Button>
-                <Button variant="outline" size="lg">
+                <Button variant="outline" size="lg" onClick={handleAddToWishlist}>
                   <Heart className="h-5 w-5" />
                 </Button>
               </div>
 
               {product.inStock ? (
                 <p className="text-sm text-green-600 font-medium">
-                  ✓ Còn hàng - Giao hàng trong 2-3 ngày
+                  Còn hàng
                 </p>
               ) : (
                 <p className="text-sm text-red-600 font-medium">
@@ -250,7 +201,7 @@ const ProductDetail = () => {
                 <p className="text-muted-foreground">
                   Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!
                 </p>
-                <Button variant="outline" className="mt-4">
+                <Button variant="outline" className="mt-4" onClick={handleWriteReview}>
                   Viết đánh giá
                 </Button>
               </div>

@@ -70,6 +70,11 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
     navigate('/cart');
   };
 
+  const handleCheckout = () => {
+    onClose();
+    navigate('/checkout');
+  };
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent side="right" className="w-full sm:max-w-sm">
@@ -151,23 +156,21 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
             <>
               <Separator />
               <SheetFooter className="flex-col space-y-4 pt-4">
-                <div className="flex justify-between items-center">
+              <div className="bg-white rounded-xl shadow p-4 w-full">
+                <div className="flex justify-between items-center mb-4">
                   <span className="font-medium">Tổng cộng:</span>
                   <span className="font-bold text-lg">{formatPrice(totalAmount)}</span>
                 </div>
-                
-                <div className="grid gap-2">
-                  <Button className="w-full" size="lg">
+                <div className="flex flex-col gap-2">
+                  <Button className="w-full" size="lg" onClick={handleCheckout}>
                     Thanh Toán
                   </Button>
                   <Button variant="outline" className="w-full" onClick={handleViewCart}>
                     Xem Giỏ Hàng
                   </Button>
-                  <Button variant="ghost" className="w-full" onClick={onClose}>
-                    Tiếp Tục Mua Sắm
-                  </Button>
                 </div>
-              </SheetFooter>
+              </div>
+            </SheetFooter>
             </>
           )}
         </div>

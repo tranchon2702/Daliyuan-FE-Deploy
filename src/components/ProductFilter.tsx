@@ -42,7 +42,7 @@ const ProductFilter = () => {
               className={`px-8 py-3 rounded-full transition-all duration-300 font-medium ${
                 activeFilter === filter.name
                   ? "bg-accent-gradient text-white shadow-hover scale-105"
-                  : "hover:bg-dessert-secondary/50 hover:scale-105 text-dessert-primary"
+                  : "hover:bg-dessert-secondary/50 hover:text-red-500 hover:scale-105 text-dessert-primary"
               }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >

@@ -1,20 +1,57 @@
-import { useState } from "react";
-import { Search, ShoppingCart, User, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Search, ShoppingCart, User, Menu, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CartModal from "@/components/CartModal";
+import LoginModal from "@/components/User/LoginModal";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const loginStatus = localStorage.getItem("isLoggedIn");
+      const user = localStorage.getItem("userData");
+      
+      if (loginStatus === "true" && user) {
+        setIsLoggedIn(true);
+        setUserData(JSON.parse(user));
+      } else {
+        setIsLoggedIn(false);
+        setUserData(null);
+      }
+    };
+
+    checkLoginStatus();
+    window.addEventListener("storage", checkLoginStatus);
+    
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+    };
+  }, []);
 
   const navigation = [
     { name: "Shop", href: "/" },
     { name: "Giới Thiệu", href: "/about" },
     { name: "Liên Hệ", href: "/contact" },
     { name: "Giỏ Hàng", href: "/cart" },
+    { name: "Thanh Toán", href: "/hinh-thuc-thanh-toan" },
   ];
+
+  const isActivePage = (href: string) => {
+    if (href === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname.startsWith(href);
+  };
 
   return (
     <header className="bg-dessert-cream/95 backdrop-blur-md sticky top-0 z-50 border-b border-dessert-secondary/20 shadow-card">
@@ -45,16 +82,25 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="relative text-sm font-medium text-dessert-primary hover:text-dessert-dark transition-all duration-300 group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-gradient group-hover:w-full transition-all duration-300"></span>
-              </a>
-            ))}
+            {navigation.map((item) => {
+              const isActive = isActivePage(item.href);
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={`relative text-sm font-medium transition-all duration-300 group ${
+                    isActive 
+                      ? "text-dessert-dark font-semibold" 
+                      : "text-dessert-primary hover:text-dessert-dark"
+                  }`}
+                >
+                  {item.name}
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-accent-gradient transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}></span>
+                </a>
+              );
+            })}
           </nav>
 
           {/* Actions */}
@@ -67,9 +113,55 @@ const Header = () => {
             >
               <Search className="h-5 w-5 text-dessert-primary" />
             </Button>
-            <Button variant="ghost" size="sm" className="hover:bg-dessert-secondary/50 hover:scale-105 transition-all duration-300">
-              <User className="h-5 w-5 text-dessert-primary" />
-            </Button>
+            {isLoggedIn ? (
+              <div className="relative group">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="hover:bg-dessert-secondary/50 hover:scale-105 transition-all duration-300"
+                  onClick={() => navigate("/my-account")}
+                >
+                  <User className="h-5 w-5 text-dessert-primary" />
+                </Button>
+                {/* Dropdown menu */}
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="p-3 border-b border-gray-100">
+                    <p className="text-sm font-medium text-gray-900">{userData?.fullName}</p>
+                    <p className="text-xs text-gray-500">{userData?.email}</p>
+                  </div>
+                  <div className="p-1">
+                    <button
+                      onClick={() => navigate("/my-account")}
+                      className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+                    >
+                      Tài khoản của tôi
+                    </button>
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("userData");
+                        setIsLoggedIn(false);
+                        setUserData(null);
+                        navigate("/");
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center space-x-2"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span>Đăng xuất</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="hover:bg-dessert-secondary/50 hover:scale-105 transition-all duration-300"
+                onClick={() => setIsLoginOpen(true)}
+              >
+                <User className="h-5 w-5 text-dessert-primary" />
+              </Button>
+            )}
             <Button 
               variant="ghost" 
               size="sm" 
@@ -102,15 +194,22 @@ const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden py-4 border-t border-border">
             <nav className="space-y-4">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="block text-sm font-medium text-foreground hover:text-dessert-primary transition-colors"
-                >
-                  {item.name}
-                </a>
-              ))}
+              {navigation.map((item) => {
+                const isActive = isActivePage(item.href);
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={`block text-sm font-medium transition-colors ${
+                      isActive 
+                        ? "text-dessert-primary font-semibold" 
+                        : "text-foreground hover:text-dessert-primary"
+                    }`}
+                  >
+                    {item.name}
+                  </a>
+                );
+              })}
             </nav>
           </div>
         )}
@@ -118,6 +217,9 @@ const Header = () => {
       
       {/* Cart Modal */}
       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </header>
   );
 };
