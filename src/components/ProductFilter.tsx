@@ -1,18 +1,20 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const ProductFilter = () => {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
   const filters = [
-    { name: "All", label: "Tất Cả" },
-    { name: "best-sellers", label: "Bán Chạy Nhất" },
-    { name: "must-try", label: "Phải Thử" },
-    { name: "new-arrivals", label: "Sản Phẩm Mới" },
-    { name: "trending", label: "Đang Hot" },
+    { name: "All", label: t('product_filter.filters.all') },
+    { name: "best-sellers", label: t('product_filter.filters.best_sellers') },
+    { name: "must-try", label: t('product_filter.filters.must_try') },
+    { name: "new-arrivals", label: t('product_filter.filters.new_arrivals') },
+    { name: "trending", label: t('product_filter.filters.trending') },
   ];
 
   return (
@@ -25,10 +27,10 @@ const ProductFilter = () => {
         {/* Section Header */}
         <div className="text-center mb-8 animate-fade-in">
           <h3 className="font-display text-3xl lg:text-4xl font-bold text-dessert-primary mb-4">
-            Khám Phá Bộ Sưu Tập
+            {t('product_filter.title')}
           </h3>
           <p className="text-dessert-primary/70 max-w-2xl mx-auto">
-            Tìm kiếm sản phẩm yêu thích của bạn từ bộ sưu tập đa dạng và phong phú
+            {t('product_filter.subtitle')}
           </p>
         </div>
 
@@ -59,12 +61,12 @@ const ProductFilter = () => {
               className="flex items-center gap-2 px-6 py-3 rounded-full border-dessert-primary/20 hover:border-dessert-primary/40 hover:bg-dessert-secondary/30 transition-all duration-300"
             >
               <Filter className="h-4 w-4 text-dessert-primary" />
-              <span className="text-dessert-primary font-medium">Lọc</span>
+              <span className="text-dessert-primary font-medium">{t('product_filter.filter_button')}</span>
             </Button>
             <div className="relative group">
               <Input
                 type="text"
-                placeholder="Tìm kiếm sản phẩm..."
+                placeholder={t('product_filter.search_placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-12 pr-4 py-3 w-80 rounded-full border-dessert-primary/20 focus:border-dessert-primary focus:ring-dessert-primary/20 bg-white/50 backdrop-blur-sm"

@@ -1,0 +1,426 @@
+{
+  "header": {
+    "nav": {
+      "shop": "商店",
+      "about": "关于我们",
+      "contact": "联系方式",
+      "cart": "购物车",
+      "payment": "支付"
+    },
+    "menu": "菜单",
+    "tagline": "甜点及更多",
+    "my_account": "我的账户",
+    "logout": "登出",
+    "search_placeholder": "搜索产品..."
+  },
+  "hero": {
+    "title1": "工匠",
+    "title2": "甜点",
+    "subtitle": "探索精致甜点的世界，品味绝佳，设计完美。每一款产品都是一件充满灵感的艺术品。",
+    "cta": "立即探索"
+  },
+  "product_filter": {
+    "title": "探索我们的收藏",
+    "subtitle": "从我们多样而丰富的收藏中找到您最喜欢的产品",
+    "filters": {
+      "all": "全部",
+      "best_sellers": "畅销产品",
+      "must_try": "必试",
+      "new_arrivals": "新品上市",
+      "trending": "热门"
+    },
+    "filter_button": "筛选",
+    "search_placeholder": "搜索产品..."
+  },
+  "product_grid": {
+    "view_more": "查看更多"
+  },
+  "footer": {
+    "tagline": "甜点及更多",
+    "description": "我们创造出口味绝佳、设计完美的精致甜点。",
+    "links": {
+      "title": "快速链接",
+      "about": "关于我们",
+      "products": "产品",
+      "news": "消息",
+      "contact": "联系方式"
+    },
+    "support": {
+      "title": "支持",
+      "delivery_policy": "送货政策",
+      "return_policy": "退货政策",
+      "payment_guide": "付款指南",
+      "faq": "常见问题"
+    },
+    "contact": {
+      "title": "联系方式",
+      "address": "胡志明市第一郡阮文A街123号",
+      "phone": "0123 456 789",
+      "email": "hello@the350f.com"
+    },
+    "copyright": "© 2024 The350F. 版权所有。"
+  },
+  "product_detail": {
+    "breadcrumb_home": "主页",
+    "back_button": "返回",
+    "weight": "重量:",
+    "serves": "份量:",
+    "quantity": "数量:",
+    "add_to_cart": "加入购物车",
+    "in_stock": "有货",
+    "out_of_stock": "暂时缺货",
+    "tabs": {
+      "description": "描述",
+      "ingredients": "成分",
+      "reviews": "评价"
+    },
+    "detailed_description": "蛋糕采用从欧洲进口的优质原料手工制作。每一块蛋糕都由多年经验的专业厨师团队精心制作。",
+    "main_ingredients": "主要成分:",
+    "no_reviews": "暂无评价。成为第一个评价此产品的人！",
+    "write_review": "撰写评价",
+    "related_products": "相关产品"
+  },
+  "about_page": {
+    "badge": "关于我们",
+    "hero_title": "The350F的故事",
+    "hero_subtitle": "从一个小小的热情到一个备受喜爱的甜点品牌，近十年来，The350F不断创新，为顾客带来绝佳体验。",
+    "story_title": "源于热情",
+    "story_p1": "The350F诞生于经验丰富的厨师团队创造美味甜点的热情。我们相信，每一块蛋糕不仅是食物，更是一门艺术，是分享喜悦与爱的方式。",
+    "story_p2": "“The350F”这个名字的灵感来自于烘焙的理想温度（350°F = 175°C），体现了每个生产环节的精确与专业。",
+    "story_p3": "从最初只有一个小烤箱的简陋日子起，我们不断学习、创新和发展，为顾客提供最优质的产品。",
+    "experience": "年经验",
+    "values_title": "核心价值观",
+    "values_subtitle": "指导我们所有活动的价值观",
+    "values": {
+      "passion": {
+        "title": "热情",
+        "description": "我们将爱与热情投入到每一块蛋糕中"
+      },
+      "quality": {
+        "title": "质量",
+        "description": "优质原料，严格流程"
+      },
+      "customer": {
+        "title": "顾客",
+        "description": "顾客的满意是我们的首要任务"
+      },
+      "tradition": {
+        "title": "传统",
+        "description": "继承和发展传统蛋糕配方"
+      }
+    }
+  },
+  "contact_page": {
+    "badge": "联系我们",
+    "hero_title": "与我们联系",
+    "hero_subtitle": "我们随时准备倾听和支持您。请联系The350F进行咨询和订购。",
+    "info": {
+      "address": {
+        "title": "地址",
+        "details": [
+          "胡志明市第一郡阮文A街123号",
+          "胡志明市第三郡黎文B街456号"
+        ]
+      },
+      "phone": {
+        "title": "电话",
+        "details": [
+          "热线: 0123 456 789",
+          "订购: 0987 654 321"
+        ]
+      },
+      "email": {
+        "title": "电子邮件",
+        "details": [
+          "info@the350f.com",
+          "order@the350f.com"
+        ]
+      },
+      "hours": {
+        "title": "营业时间",
+        "details": [
+          "周一至周日: 8:00 - 22:00",
+          "节假日: 9:00 - 21:00"
+        ]
+      }
+    },
+    "form": {
+      "title": "给我们发消息",
+      "name_label": "姓名 *",
+      "name_placeholder": "输入您的姓名",
+      "phone_label": "电话号码 *",
+      "phone_placeholder": "输入您的电话号码",
+      "email_label": "电子邮件 *",
+      "email_placeholder": "输入您的电子邮件地址",
+      "subject_label": "主题",
+      "subject_placeholder": "输入主题",
+      "message_label": "内容 *",
+      "message_placeholder": "输入您的消息内容...",
+      "submit_button": "发送消息"
+    },
+    "map": {
+      "title": "商店地图",
+      "subtitle": "点击查看详细位置"
+    },
+    "social": {
+      "title": "关注我们",
+      "subtitle": "更新最新产品和特别优惠",
+      "facebook": "脸书",
+      "instagram": "照片墙"
+    }
+  },
+  "cart_page": {
+    "empty": {
+      "title": "购物车是空的",
+      "subtitle": "您的购物车中没有商品。快来发现我们的精美产品吧！",
+      "continue_shopping": "继续购物"
+    },
+    "title": "购物车",
+    "item_count": "件商品在购物车中",
+    "continue_shopping": "继续购物",
+    "summary": {
+      "title": "订单摘要",
+      "subtotal": "小计:",
+      "shipping": "运费:",
+      "discount": "折扣:",
+      "total": "总计:",
+      "checkout_button": "进行结算"
+    },
+    "invalid_promo": "无效的优惠码！"
+  },
+  "checkout_page": {
+    "title": "结账",
+    "subtitle": "完成您的订单",
+    "loading": "正在加载数据...",
+    "shipping_info": {
+      "title": "送货信息",
+      "full_name_label": "姓名 *",
+      "full_name_placeholder": "输入姓名",
+      "email_label": "电子邮件 *",
+      "email_placeholder": "输入电子邮件",
+      "phone_label": "电话号码 *",
+      "phone_placeholder": "输入电话号码",
+      "city_label": "省/市 *",
+      "city_placeholder": "选择省/市",
+      "district_label": "区/县 *",
+      "district_placeholder": "选择区/县",
+      "ward_label": "乡/镇 *",
+      "ward_placeholder": "选择乡/镇",
+      "address_label": "地址 *",
+      "address_placeholder": "门牌号, 街道名称",
+      "delivery_date_label": "送货日期 *",
+      "delivery_time_label": "最早送货时间 *",
+      "delivery_time_placeholder": "选择时间"
+    },
+    "other_shipping_info": {
+      "title": "送货信息",
+      "other_address_checkbox": "送货到其他地址？",
+      "full_name_label": "收件人姓名 *",
+      "full_name_placeholder": "输入收件人姓名",
+      "phone_label": "收件人电话（可选）",
+      "phone_placeholder": "收件人电话",
+      "city_label": "省/市 *",
+      "district_label": "区/县 *",
+      "ward_label": "乡/镇 *",
+      "address_label": "地址 *",
+      "order_note_label": "订单备注（可选）",
+      "order_note_placeholder": "关于您订单的备注，例如：特殊配送说明。"
+    },
+    "order_summary": {
+      "title": "您的订单",
+      "quantity": "数量：",
+      "subtotal": "小计：",
+      "shipping": "运费：",
+      "tax": "增值税 (10%)：",
+      "total": "总计：",
+      "submit_button": "下单 - {{total}}"
+    },
+    "notice": {
+      "title": "重要通知",
+      "line1": "我们将回电与您确认订单并告知确切的运费。",
+      "line2": "您可以向客服人员提供银行账号，以便更改为预付转账方式。",
+      "hotline": "热线电话："
+    }
+  },
+  "payment_success_page": {
+    "title": "订单成功！",
+    "subtitle": "感谢您在The350F购物。您的订单已确认，我们将尽快处理。",
+    "order_details": {
+      "order_number": "订单号:",
+      "order_date": "下单日期:",
+      "estimated_delivery": "预计送达:",
+      "payment_method": "付款方式:",
+      "payment_method_value": "信用卡"
+    },
+    "next_steps": {
+      "preparing": {
+        "title": "准备中",
+        "description": "订单正在准备中"
+      },
+      "shipping": {
+        "title": "运输中",
+        "description": "2-3天内发货"
+      },
+      "invoice": {
+        "title": "发票",
+        "description": "通过电子邮件发送"
+      }
+    },
+    "buttons": {
+      "continue_shopping": "继续购物",
+      "view_order": "查看订单"
+    },
+    "support": {
+      "title": "需要帮助？",
+      "description": "如果您对订单有任何疑问，请联系我们。",
+      "hotline": "📞 热线: 1900-1234",
+      "email": "📧 电子邮件: support@the350f.com"
+    }
+  },
+  "my_account_page": {
+    "title": "我的账户",
+    "subtitle_logged_in": "管理您的个人信息、订单等。",
+    "subtitle_logged_out": "登录以管理您的账户。",
+    "sidebar": {
+      "profile": "个人信息",
+      "orders": "我的订单",
+      "address": "地址簿",
+      "settings": "设置",
+      "logout": "登出"
+    },
+    "profile_tab": {
+      "title": "个人信息",
+      "edit_button": "编辑",
+      "save_button": "保存更改",
+      "cancel_button": "取消",
+      "upload_avatar_title": "上传新头像",
+      "full_name_label": "姓名",
+      "reset_google_avatar_title": "恢复谷歌头像",
+      "name_not_updated": "姓名未更新",
+      "google_login": "使用谷歌登录",
+      "upload_new_avatar_prompt": "点击图片上传新头像",
+      "full_name_placeholder": "输入您的姓名",
+      "email_label": "电子邮件",
+      "phone_label": "电话号码",
+      "phone_placeholder": "输入您的电话号码",
+      "address_label": "地址",
+      "address_placeholder": "输入您的地址"
+    },
+    "orders_tab": {
+      "title": "购买历史",
+      "order_id": "订单 #{{id}}",
+      "order_date": "下单日期",
+      "products": "产品",
+      "view_details_button": "查看详情",
+      "statuses": {
+        "delivered": "已送达",
+        "processing": "处理中",
+        "cancelled": "已取消",
+        "pending": "待处理"
+      }
+    },
+    "address_tab": {
+      "title": "地址管理",
+      "add_button": "添加新地址",
+      "no_addresses": "您还没有保存任何地址。",
+      "default_badge": "默认",
+      "set_default_button": "设为默认",
+      "address_badge": "地址",
+      "phone_label": "电话",
+      "edit_button": "编辑",
+      "delete_button": "删除"
+    },
+    "settings_tab": {
+      "title": "账户设置",
+      "notifications_label": "接收有关促销活动的电子邮件",
+      "change_password_button": "更改密码",
+      "delete_account_button": "删除账户",
+      "fill_all_fields_alert": "请填写所有字段",
+      "new_password_mismatch_alert": "新密码不匹配",
+      "password_change_success_alert": "密码更改成功（模拟）",
+      "current_password_placeholder": "当前密码",
+      "new_password_placeholder": "新密码",
+      "confirm_new_password_placeholder": "确认新密码",
+      "confirm_button": "确认",
+      "delete_account_confirm": "您确定要删除您的账户吗？（模拟）",
+      "account_deleted_alert": "账户已被删除（模拟）"
+    },
+    "address_modal": {
+      "edit_title": "更新地址",
+      "add_title": "添加新地址",
+      "edit_desc": "更新您的收货地址信息。",
+      "add_desc": "请填写完整信息以添加新地址。",
+      "full_name_label": "姓名",
+      "full_name_placeholder": "例如：王小明",
+      "phone_label": "电话号码",
+      "phone_placeholder": "例如：13800138000",
+      "address_label": "详细地址",
+      "address_placeholder": "街道地址、门牌号...",
+      "city_label": "省/市",
+      "city_placeholder": "选择省/市",
+      "district_label": "区/县",
+      "district_placeholder": "选择区/县",
+      "ward_label": "镇/街道",
+      "ward_placeholder": "选择镇/街道",
+      "update_button": "更新",
+      "add_button": "添加",
+      "cancel_button": "取消"
+    },
+    "delete_account_modal": {
+      "title": "确认删除账户",
+      "description": "您确定要删除您的账户吗？此操作无法撤销。",
+      "confirm_button": "删除账户",
+      "cancel_button": "取消"
+    },
+    "toasts": {
+      "add_address_success": "新地址已添加！",
+      "update_address_success": "地址已更新！",
+      "delete_address_success": "地址已删除。",
+      "set_default_success": "默认地址已设置！",
+      "profile_update_success": "个人信息更新成功！"
+    }
+  },
+  "cart_modal": {
+    "title": "购物车",
+    "empty_cart": "您的购物车是空的",
+    "start_shopping": "添加商品开始购物",
+    "total": "总计：",
+    "checkout_button": "去结算",
+    "view_cart_button": "查看购物车"
+  },
+  "product_modal": {
+    "default_description": "采用新鲜优质原料制成的高级蛋糕，带来绝佳而独特的风味。",
+    "add_to_cart_button": "加入购物车"
+  },
+  "payment_methods_page": {
+    "title": "支付方式",
+    "subtitle": "我们支持多种灵活安全的支付方式。",
+    "cod": {
+      "title": "货到付款 (COD)",
+      "line1": "客户可以通过 the350f.com 网站下单，我们的工作人员会致电确认订单信息并提供更多咨询。",
+      "line2": "在检查订单状态（检查所订购的产品是否完好无损，附带的配件如刀、蜡烛、祝福标签等是否齐全）后，请立即向送货员全额支付订单价值。",
+      "line3": "如果送货员已将货物送达，您需要更改支付方式，请致电热线 0908.78.8787 通知并获得快速支持。"
+    },
+    "bank_transfer": {
+      "title": "银行转账",
+      "description": "请将款项转入以下账户。转账内容请注明订单号，以便我们快速确认。",
+      "bank": "银行:",
+      "account_holder": "账户持有人:",
+      "account_number": "账号:"
+    },
+    "vnpay": {
+      "title": "通过 VNPAY 网关在线支付",
+      "description": "我们接受通过国内 ATM 卡、Visa、MasterCard、JCB 和 VNPAY 钱包付款。您的交易将得到安全、绝对保密的处理。"
+    }
+  },
+  "checkout_toast": {
+    "missing_info_title": "信息不完整",
+    "missing_info_desc": "请填写所有必填信息。",
+    "processing_title": "正在处理订单...",
+    "processing_desc": "我们正在处理您的付款",
+    "success_title": "下单成功！",
+    "success_desc": "订单号: {{orderId}}",
+    "error_title": "错误",
+    "error_desc": "处理订单时发生错误"
+  }
+} 

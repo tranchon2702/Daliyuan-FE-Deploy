@@ -7,18 +7,21 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Banknote, CreditCard, Truck } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const PaymentMethods = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white">
       <Header />
       <div className="container mx-auto max-w-4xl px-4 py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            Hình Thức Thanh Toán
+            {t('payment_methods_page.title')}
           </h1>
           <p className="text-gray-600">
-            Chúng tôi hỗ trợ nhiều phương thức thanh toán linh hoạt và an toàn.
+            {t('payment_methods_page.subtitle')}
           </p>
         </div>
 
@@ -27,19 +30,19 @@ const PaymentMethods = () => {
             <AccordionTrigger className="text-lg font-semibold">
               <div className="flex items-center space-x-3">
                 <Truck className="h-6 w-6 text-red-600" />
-                <span>Thanh toán khi nhận hàng (COD)</span>
+                <span>{t('payment_methods_page.cod.title')}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="text-gray-700 leading-relaxed">
             <ul className="space-y-2 text-gray-600 list-disc list-inside">
                     <li>
-                        Khách hàng có thể đặt hàng qua website the350f.com và nhân viên của chúng tôi sẽ gọi điện xác nhận về thông tin đơn hàng và tư vấn thêm thông tin.
+                        {t('payment_methods_page.cod.line1')}
                     </li>
                     <li>
-                        Quý Khách thanh toán đầy đủ toàn bộ giá trị đơn hàng cho nhân viên giao nhận ngay sau khi kiểm tra tình trạng đơn hàng (kiểm tra đúng sản phẩm đã đặt còn nguyên vẹn, đầy đủ phụ kiện đi kèm như dao nến và tag chúc mừng, … ).
+                        {t('payment_methods_page.cod.line2')}
                     </li>
                     <li>
-                        Nếu Quý Khách cần thay đổi hình thức thanh toán khi shipper đã giao hàng đến, hãy gọi Hotline 0908.78.8787 để thông báo và được hỗ trợ nhanh chóng.
+                        {t('payment_methods_page.cod.line3')}
                     </li>
                 </ul>
             </AccordionContent>
@@ -49,24 +52,22 @@ const PaymentMethods = () => {
             <AccordionTrigger className="text-lg font-semibold">
               <div className="flex items-center space-x-3">
                 <Banknote className="h-6 w-6 text-red-600" />
-                <span>Chuyển khoản ngân hàng</span>
+                <span>{t('payment_methods_page.bank_transfer.title')}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="text-gray-700 leading-relaxed space-y-2">
               <p>
-                Quý khách vui lòng chuyển khoản vào tài khoản dưới đây. Nội dung
-                chuyển khoản xin ghi rõ mã đơn hàng để chúng tôi có thể xác
-                nhận nhanh chóng.
+                {t('payment_methods_page.bank_transfer.description')}
               </p>
               <ul className="list-disc list-inside bg-gray-50 p-4 rounded-md">
                 <li>
-                  <strong>Ngân hàng:</strong> Vietcombank
+                  <strong>{t('payment_methods_page.bank_transfer.bank')}</strong> Vietcombank
                 </li>
                 <li>
-                  <strong>Chủ tài khoản:</strong> CTY TNHH THE 350F
+                  <strong>{t('payment_methods_page.bank_transfer.account_holder')}</strong> CTY TNHH THE 350F
                 </li>
                 <li>
-                  <strong>Số tài khoản:</strong> 1234567890
+                  <strong>{t('payment_methods_page.bank_transfer.account_number')}</strong> 1234567890
                 </li>
               </ul>
             </AccordionContent>
@@ -76,13 +77,11 @@ const PaymentMethods = () => {
             <AccordionTrigger className="text-lg font-semibold">
               <div className="flex items-center space-x-3">
                 <CreditCard className="h-6 w-6 text-red-600" />
-                <span>Thanh toán trực tuyến qua cổng VNPAY</span>
+                <span>{t('payment_methods_page.vnpay.title')}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="text-gray-700 leading-relaxed">
-              Chúng tôi chấp nhận thanh toán qua thẻ ATM nội địa, Visa,
-              MasterCard, JCB và ví VNPAY. Giao dịch của bạn sẽ được xử lý an
-              toàn và bảo mật tuyệt đối.
+              {t('payment_methods_page.vnpay.description')}
             </AccordionContent>
           </AccordionItem>
         </Accordion>

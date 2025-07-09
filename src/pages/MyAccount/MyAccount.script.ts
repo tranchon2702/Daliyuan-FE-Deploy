@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProvinces, getDistricts, getWards } from "../Checkout/Checkout.script";
+import i18n from '@/i18n'; // Import i18n instance
 
 // ===== TYPES & INTERFACES =====
 export interface UserData {
@@ -47,10 +48,10 @@ export interface UserAvatarProps {
 
 // ===== CONSTANTS =====
 const SIDEBAR_ITEMS = [
-  { key: "profile", icon: "User", label: "Thông tin cá nhân" },
-  { key: "orders", icon: "Package", label: "Đơn hàng" },
-  { key: "address", icon: "MapPin", label: "Địa chỉ giao hàng" },
-  { key: "settings", icon: "Settings", label: "Cài đặt" },
+  { key: "profile", icon: "User", label: 'my_account_page.sidebar.profile' },
+  { key: "orders", icon: "Package", label: 'my_account_page.sidebar.orders' },
+  { key: "address", icon: "MapPin", label: 'my_account_page.sidebar.address' },
+  { key: "settings", icon: "Settings", label: 'my_account_page.sidebar.settings' },
 ];
 
 const MOCK_ORDERS: Order[] = [
@@ -79,17 +80,18 @@ const MOCK_ORDERS: Order[] = [
 
 // ===== UTILITY FUNCTIONS =====
 const getStatusBadge = (status: Order["status"]) => {
+  const t = i18n.t;
   switch (status) {
     case "delivered":
-      return { text: "Đã giao", className: "bg-green-100 text-green-800" };
+      return { text: t('my_account_page.orders_tab.statuses.delivered'), className: "bg-green-100 text-green-800" };
     case "processing":
-      return { text: "Đang xử lý", className: "bg-blue-100 text-blue-800" };
+      return { text: t('my_account_page.orders_tab.statuses.processing'), className: "bg-blue-100 text-blue-800" };
     case "cancelled":
-      return { text: "Đã hủy", className: "bg-red-100 text-red-800" };
+      return { text: t('my_account_page.orders_tab.statuses.cancelled'), className: "bg-red-100 text-red-800" };
     case "pending":
-      return { text: "Chờ xử lý", className: "bg-yellow-100 text-yellow-800" };
+      return { text: t('my_account_page.orders_tab.statuses.pending'), className: "bg-yellow-100 text-yellow-800" };
     default:
-      return { text: "Chờ xử lý", className: "bg-gray-100 text-gray-800" };
+      return { text: t('my_account_page.orders_tab.statuses.pending'), className: "bg-gray-100 text-gray-800" };
   }
 };
 
@@ -117,7 +119,7 @@ const showToast = (message: string, type: 'success' | 'error' = 'success') => {
   toast.className = `fixed top-4 right-4 z-50 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 ${
     type === 'success' ? 'bg-green-500' : 'bg-red-500'
   }`;
-  toast.textContent = message;
+  toast.textContent = i18n.t(message); // Use i18n for toast messages
   document.body.appendChild(toast);
 
   setTimeout(() => {
@@ -230,7 +232,7 @@ export const useMyAccount = () => {
     // Nếu là địa chỉ đầu tiên, đặt làm mặc định
     if (newAddresses.length === 1) newAddresses[0].isDefault = true;
     saveAddresses(newAddresses);
-    showToast("Đã thêm địa chỉ mới!");
+    showToast("my_account_page.toasts.add_address_success");
   };
 
   // Sửa địa chỉ
@@ -239,7 +241,7 @@ export const useMyAccount = () => {
       addr.id === id ? { ...addr, ...updated } : addr
     );
     saveAddresses(newAddresses);
-    showToast("Đã cập nhật địa chỉ!");
+    showToast("my_account_page.toasts.update_address_success");
   };
 
   // Xóa địa chỉ
@@ -250,14 +252,14 @@ export const useMyAccount = () => {
       newAddresses[0].isDefault = true;
     }
     saveAddresses(newAddresses);
-    showToast("Đã xóa địa chỉ!");
+    showToast("my_account_page.toasts.delete_address_success");
   };
 
   // Chọn địa chỉ mặc định
   const setDefaultAddress = (id: string) => {
     const newAddresses = addresses.map(addr => ({ ...addr, isDefault: addr.id === id }));
     saveAddresses(newAddresses);
-    showToast("Đã chọn địa chỉ mặc định!");
+    showToast("my_account_page.toasts.set_default_success");
   };
 
   // ===== MODAL LOCATION LOGIC =====
@@ -467,7 +469,7 @@ export const useMyAccount = () => {
       
       localStorage.setItem("userData", JSON.stringify(editData));
       
-      showToast('Thông tin cá nhân đã được cập nhật thành công!');
+      showToast("my_account_page.toasts.profile_update_success");
     } catch (error) {
       console.error("Error updating profile:", error);
       showToast('Có lỗi xảy ra khi cập nhật thông tin', 'error');

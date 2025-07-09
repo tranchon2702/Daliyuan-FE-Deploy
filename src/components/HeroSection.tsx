@@ -1,6 +1,8 @@
 import heroImage from "@/assets/hero-dessert.jpg";
+import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="relative h-[600px] lg:h-[750px] overflow-hidden bg-hero-gradient">
       {/* Hero Image */}
@@ -22,18 +24,17 @@ const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-4 h-full flex items-center justify-center">
         <div className="text-center text-white animate-slide-up">
           <h2 className="font-display text-5xl lg:text-7xl font-bold mb-6 leading-tight">
-            Artisan
+            {t('hero.title1')}
             <span className="block bg-accent-gradient bg-clip-text text-transparent">
-              Desserts
+              {t('hero.title2')}
             </span>
           </h2>
           <p className="text-lg lg:text-xl mb-10 max-w-3xl mx-auto leading-relaxed text-white/90">
-            Khám phá thế giới bánh ngọt tinh tế với hương vị tuyệt vời và thiết kế hoàn hảo. 
-            Mỗi sản phẩm là một tác phẩm nghệ thuật đầy cảm hứng.
+            {t('hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button className="group bg-accent-gradient text-white px-10 py-4 rounded-full font-semibold hover:shadow-glow transition-all duration-300 hover:scale-105 transform">
-              <span className="mr-2">Khám Phá Ngay</span>
+              <span className="mr-2">{t('hero.cta')}</span>
               <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
             </button>
           </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ import {
 } from "./Cart.script.js";
 
 const Cart = () => {
+  const { t } = useTranslation();
   const [cartItems, setCartItems] = useState(initialCartItems);
   const [promoCode, setPromoCode] = useState("");
   const [appliedPromoCode, setAppliedPromoCode] = useState("");
@@ -57,7 +59,7 @@ const Cart = () => {
       setAppliedPromoCode(promoCode);
       setPromoCode("");
     } else {
-      alert("Mã giảm giá không hợp lệ!");
+      alert(t('cart_page.invalid_promo'));
     }
   };
 
@@ -77,14 +79,14 @@ const Cart = () => {
               <ShoppingBag className="h-12 w-12 text-dessert-primary" />
             </div>
             <h1 className="font-serif text-3xl font-bold mb-4">
-              Giỏ hàng trống
+              {t('cart_page.empty.title')}
             </h1>
             <p className="text-muted-foreground mb-8">
-              Bạn chưa có sản phẩm nào trong giỏ hàng. Hãy khám phá các sản phẩm tuyệt vời của chúng tôi!
+              {t('cart_page.empty.subtitle')}
             </p>
             <Link to="/">
               <Button size="lg">
-                Tiếp tục mua sắm
+                {t('cart_page.empty.continue_shopping')}
               </Button>
             </Link>
           </div>
@@ -105,9 +107,9 @@ const Cart = () => {
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
-            <h1 className="font-serif text-3xl font-bold">Giỏ hàng</h1>
+            <h1 className="font-serif text-3xl font-bold">{t('cart_page.title')}</h1>
             <p className="text-muted-foreground">
-              {getCartItemCount(cartItems)} sản phẩm trong giỏ hàng
+              {getCartItemCount(cartItems)} {t('cart_page.item_count')}
             </p>
           </div>
         </div>
@@ -183,7 +185,7 @@ const Cart = () => {
               <Link to="/">
                 <Button variant="outline" className="space-x-2">
                   <ArrowLeft className="h-4 w-4" />
-                  <span>Tiếp tục mua sắm</span>
+                  <span>{t('cart_page.continue_shopping')}</span>
                 </Button>
               </Link>
             </div>
@@ -193,7 +195,7 @@ const Cart = () => {
           <div className="lg:col-span-1">
             <Card className="p-6 sticky top-6">
               <h2 className="font-serif text-xl font-bold mb-6">
-                Tóm tắt đơn hàng
+                {t('cart_page.summary.title')}
               </h2>
 
               <Separator className="mb-6" />
@@ -201,22 +203,22 @@ const Cart = () => {
               {/* Order Details */}
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
-                  <span>Tạm tính:</span>
+                  <span>{t('cart_page.summary.subtotal')}</span>
                   <span>{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Phí vận chuyển:</span>
+                  <span>{t('cart_page.summary.shipping')}</span>
                   <span>{formatPrice(shipping)}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-green-600">
-                    <span>Giảm giá:</span>
+                    <span>{t('cart_page.summary.discount')}</span>
                     <span>-{formatPrice(discount)}</span>
                   </div>
                 )}
                 <Separator />
                 <div className="flex justify-between text-lg font-semibold">
-                  <span>Tổng cộng:</span>
+                  <span>{t('cart_page.summary.total')}</span>
                   <span className="text-dessert-primary">{formatPrice(total)}</span>
                 </div>
               </div>
@@ -224,7 +226,7 @@ const Cart = () => {
               {/* Checkout Button */}
               <Link to="/checkout">
                 <Button className="w-full" size="lg">
-                  Tiến hành thanh toán
+                  {t('cart_page.summary.checkout_button')}
                 </Button>
               </Link>
 

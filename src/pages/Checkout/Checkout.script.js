@@ -1,5 +1,6 @@
 // Checkout business logic and utilities
 import { loadCartFromStorage, formatPrice, calculateSubtotal, calculateShipping, calculateTotal } from "../Cart/Cart.script.js";
+import i18n from '@/i18n';
 
 // Re-export functions from Cart script for use in Checkout component
 export { formatPrice, calculateSubtotal, calculateShipping, calculateTotal };
@@ -541,8 +542,8 @@ export const handleSubmitOrder = async (shippingInfo, otherShippingInfo, cartIte
   const errors = validateForm(shippingInfo, otherShippingInfo);
   if (errors.length > 0) {
     toast({
-      title: "Thông tin chưa đầy đủ",
-      description: errors.join('. '),
+      title: i18n.t('checkout_toast.missing_info_title'),
+      description: i18n.t('checkout_toast.missing_info_desc'),
       variant: "destructive"
     });
     return false;
@@ -593,8 +594,8 @@ export const handleSubmitOrder = async (shippingInfo, otherShippingInfo, cartIte
   sessionStorage.setItem('last_order_data', JSON.stringify(orderData));
 
   toast({
-    title: "Đang xử lý đơn hàng...",
-    description: "Chúng tôi đang xử lý thanh toán của bạn"
+    title: i18n.t('checkout_toast.processing_title'),
+    description: i18n.t('checkout_toast.processing_desc')
   });
 
   try {
@@ -602,23 +603,23 @@ export const handleSubmitOrder = async (shippingInfo, otherShippingInfo, cartIte
     
     if (result.success) {
       toast({
-        title: "Đặt hàng thành công!",
-        description: `Mã đơn hàng: ${result.orderId}`,
+        title: i18n.t('checkout_toast.success_title'),
+        description: i18n.t('checkout_toast.success_desc', { orderId: result.orderId }),
       });
       navigate("/payment-success");
       return true;
     } else {
       toast({
-        title: "Lỗi",
-        description: result.error || "Có lỗi xảy ra khi xử lý đơn hàng",
+        title: i18n.t('checkout_toast.error_title'),
+        description: result.error || i18n.t('checkout_toast.error_desc'),
         variant: "destructive"
       });
       return false;
     }
   } catch (error) {
     toast({
-      title: "Lỗi",
-      description: "Có lỗi xảy ra khi xử lý đơn hàng",
+      title: i18n.t('checkout_toast.error_title'),
+      description: i18n.t('checkout_toast.error_desc'),
       variant: "destructive"
     });
     return false;

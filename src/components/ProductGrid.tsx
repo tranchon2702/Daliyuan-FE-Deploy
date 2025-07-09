@@ -3,6 +3,7 @@ import ProductModal from "./ProductModal";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import chocolateCakeImg from "@/assets/chocolate-cake.jpg";
 import blackForestImg from "@/assets/black-forest.jpg";
 import tiramisuImg from "@/assets/tiramisu.jpg";
@@ -13,6 +14,7 @@ const chunk = (arr: any[], size: number) =>
   );
 
 const ProductGrid = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,14 +70,14 @@ const ProductGrid = () => {
               const [p1, p2, p3, p4, p5] = chunk;
               return (
                 <div key={`chunk-${index}`} className="flex flex-col lg:flex-row gap-4">
-                  <div className="lg:w-1/4 flex flex-col gap-4">
+                  <div className="grid grid-cols-2 lg:flex lg:w-1/4 lg:flex-col gap-4">
                     <ProductCard {...p1} onProductClick={handleProductClick} onModalOpen={handleModalOpen} />
                     <ProductCard {...p2} onProductClick={handleProductClick} onModalOpen={handleModalOpen} />
                   </div>
                   <div className="lg:w-1/2">
                     <ProductCard {...p3} onProductClick={handleProductClick} onModalOpen={handleModalOpen} isLarge />
                   </div>
-                  <div className="lg:w-1/4 flex flex-col gap-4">
+                  <div className="grid grid-cols-2 lg:flex lg:w-1/4 lg:flex-col gap-4">
                     <ProductCard {...p4} onProductClick={handleProductClick} onModalOpen={handleModalOpen} />
                     <ProductCard {...p5} onProductClick={handleProductClick} onModalOpen={handleModalOpen} />
                   </div>
@@ -102,7 +104,7 @@ const ProductGrid = () => {
 
         <div className="text-center mt-12">
           <Button variant="outline" size="lg" className="rounded-full px-8">
-            Xem Thêm
+            {t('product_grid.view_more')}
           </Button>
         </div>
       </div>

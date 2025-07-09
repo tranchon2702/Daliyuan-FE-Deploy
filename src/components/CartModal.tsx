@@ -4,6 +4,7 @@ import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "react-i18next";
 
 interface CartItem {
   id: string;
@@ -20,6 +21,7 @@ interface CartModalProps {
 
 const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   
   // Mock cart data - in real app this would come from context/state management
   const [cartItems, setCartItems] = useState<CartItem[]>([
@@ -81,7 +83,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5" />
-            Giỏ Hàng ({totalItems})
+            {t('cart_modal.title')} ({totalItems})
           </SheetTitle>
         </SheetHeader>
 
@@ -91,9 +93,9 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
             {cartItems.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
                 <ShoppingBag className="h-16 w-16 text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">Giỏ hàng trống</p>
+                <p className="text-muted-foreground">{t('cart_modal.empty_cart')}</p>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Thêm sản phẩm để bắt đầu mua sắm
+                  {t('cart_modal.start_shopping')}
                 </p>
               </div>
             ) : (
@@ -158,15 +160,15 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
               <SheetFooter className="flex-col space-y-4 pt-4">
               <div className="bg-white rounded-xl shadow p-4 w-full">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="font-medium">Tổng cộng:</span>
+                  <span className="font-medium">{t('cart_modal.total')}</span>
                   <span className="font-bold text-lg">{formatPrice(totalAmount)}</span>
                 </div>
                 <div className="flex flex-col gap-2">
                   <Button className="w-full" size="lg" onClick={handleCheckout}>
-                    Thanh Toán
+                    {t('cart_modal.checkout_button')}
                   </Button>
                   <Button variant="outline" className="w-full" onClick={handleViewCart}>
-                    Xem Giỏ Hàng
+                    {t('cart_modal.view_cart_button')}
                   </Button>
                 </div>
               </div>

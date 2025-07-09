@@ -2,6 +2,7 @@ import { X, ShoppingCart, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ interface ProductModalProps {
 
 const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
@@ -41,13 +43,13 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
             <p className="text-4xl font-extrabold text-red-600">{product.price}</p>
             
             <p className="text-gray-600 leading-relaxed flex-grow">
-              {product.description || "Bánh cao cấp được chế biến từ nguyên liệu tươi ngon, mang đến hương vị tuyệt vời và độc đáo."}
+              {product.description || t('product_modal.default_description')}
             </p>
 
             <div className="flex items-center space-x-3">
               <Button size="lg" className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-md">
                 <ShoppingCart className="h-5 w-5 mr-2" />
-                Thêm vào giỏ
+                {t('product_modal.add_to_cart_button')}
               </Button>
               <Button variant="outline" size="icon" className="h-12 w-12 border-gray-300 rounded-md" onClick={() => setIsWishlisted(!isWishlisted)}>
                 <Heart

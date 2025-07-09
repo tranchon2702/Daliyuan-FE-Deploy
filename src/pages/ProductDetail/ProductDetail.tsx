@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, Heart, ShoppingCart, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +10,7 @@ import Footer from "@/components/Footer";
 import { useProductDetail } from "./ProductDetails.script";
 
 const ProductDetail = () => {
+  const { t } = useTranslation();
   const {
     product,
     relatedProducts,
@@ -29,7 +31,7 @@ const ProductDetail = () => {
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-6">
           <Link to="/" className="hover:text-dessert-primary transition-colors">
-            Trang chủ
+            {t('product_detail.breadcrumb_home')}
           </Link>
           <span>/</span>
           <span>{product.category}</span>
@@ -43,7 +45,7 @@ const ProductDetail = () => {
           className="inline-flex items-center space-x-2 text-dessert-primary hover:text-dessert-warm transition-colors mb-6"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span>Quay lại</span>
+          <span>{t('product_detail.back_button')}</span>
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
@@ -100,7 +102,7 @@ const ProductDetail = () => {
                 )}
               </div>
               <p className="text-sm text-muted-foreground">
-                Khối lượng: {product.weight} • Phục vụ: {product.serves}
+                {t('product_detail.weight')} {product.weight} • {t('product_detail.serves')} {product.serves}
               </p>
             </div>
 
@@ -113,7 +115,7 @@ const ProductDetail = () => {
             {/* Quantity and Add to Cart */}
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-                <span className="font-medium">Số lượng:</span>
+                <span className="font-medium">{t('product_detail.quantity')}</span>
                 <div className="flex items-center border rounded-lg">
                   <Button
                     variant="ghost"
@@ -137,7 +139,7 @@ const ProductDetail = () => {
               <div className="flex space-x-3">
                 <Button className="flex-1" size="lg" onClick={handleAddToCart}>
                   <ShoppingCart className="h-5 w-5 mr-2" />
-                  Thêm vào giỏ hàng
+                  {t('product_detail.add_to_cart')}
                 </Button>
                 <Button variant="outline" size="lg" onClick={handleAddToWishlist}>
                   <Heart className="h-5 w-5" />
@@ -146,11 +148,11 @@ const ProductDetail = () => {
 
               {product.inStock ? (
                 <p className="text-sm text-green-600 font-medium">
-                  Còn hàng
+                  {t('product_detail.in_stock')}
                 </p>
               ) : (
                 <p className="text-sm text-red-600 font-medium">
-                  Tạm hết hàng
+                  {t('product_detail.out_of_stock')}
                 </p>
               )}
             </div>
@@ -160,9 +162,9 @@ const ProductDetail = () => {
         {/* Product Details Tabs */}
         <Tabs defaultValue="description" className="mb-12">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="description">Mô tả</TabsTrigger>
-            <TabsTrigger value="ingredients">Thành phần</TabsTrigger>
-            <TabsTrigger value="reviews">Đánh giá</TabsTrigger>
+            <TabsTrigger value="description">{t('product_detail.tabs.description')}</TabsTrigger>
+            <TabsTrigger value="ingredients">{t('product_detail.tabs.ingredients')}</TabsTrigger>
+            <TabsTrigger value="reviews">{t('product_detail.tabs.reviews')}</TabsTrigger>
           </TabsList>
           
           <TabsContent value="description" className="mt-6">
@@ -171,16 +173,14 @@ const ProductDetail = () => {
                 {product.description}
               </p>
               <p className="text-muted-foreground">
-                Bánh được làm thủ công với nguyên liệu cao cấp nhập khẩu từ châu Âu. 
-                Mỗi chiếc bánh đều được chế biến kỹ lưỡng bởi đội ngũ bếp trưởng 
-                chuyên nghiệp với nhiều năm kinh nghiệm.
+                {t('product_detail.detailed_description')}
               </p>
             </div>
           </TabsContent>
           
           <TabsContent value="ingredients" className="mt-6">
             <div className="space-y-4">
-              <h3 className="font-semibold">Thành phần chính:</h3>
+              <h3 className="font-semibold">{t('product_detail.main_ingredients')}</h3>
               <ul className="space-y-2">
                 {product.ingredients.map((ingredient, index) => (
                   <li key={index} className="flex items-center space-x-2">
@@ -199,10 +199,10 @@ const ProductDetail = () => {
             <div className="space-y-6">
               <div className="text-center py-8">
                 <p className="text-muted-foreground">
-                  Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!
+                  {t('product_detail.no_reviews')}
                 </p>
                 <Button variant="outline" className="mt-4" onClick={handleWriteReview}>
-                  Viết đánh giá
+                  {t('product_detail.write_review')}
                 </Button>
               </div>
             </div>
@@ -211,7 +211,7 @@ const ProductDetail = () => {
 
         {/* Related Products */}
         <div>
-          <h2 className="font-serif text-2xl font-bold mb-6">Sản phẩm liên quan</h2>
+          <h2 className="font-serif text-2xl font-bold mb-6">{t('product_detail.related_products')}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {relatedProducts.map((relatedProduct) => (
               <Link

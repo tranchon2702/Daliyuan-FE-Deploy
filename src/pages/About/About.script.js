@@ -1,24 +1,24 @@
 import { Heart, Award, Users, Clock } from "lucide-react";
 
-export const values = [
+export const values = (t) => [
   {
     icon: Heart,
-    title: "Đam mê",
-    description: "Chúng tôi đặt tình yêu và đam mê vào từng món bánh"
+    title: t('about_page.values.passion.title'),
+    description: t('about_page.values.passion.description')
   },
   {
     icon: Award,
-    title: "Chất lượng",
-    description: "Nguyên liệu cao cấp, quy trình nghiêm ngặt"
+    title: t('about_page.values.quality.title'),
+    description: t('about_page.values.quality.description')
   },
   {
     icon: Users,
-    title: "Khách hàng",
-    description: "Sự hài lòng của khách hàng là ưu tiên hàng đầu"
+    title: t('about_page.values.customer.title'),
+    description: t('about_page.values.customer.description')
   },
   {
     icon: Clock,
-    title: "Truyền thống",
-    description: "Kế thừa và phát triển công thức bánh truyền thống"
+    title: t('about_page.values.tradition.title'),
+    description: t('about_page.values.tradition.description')
   }
 ]; 

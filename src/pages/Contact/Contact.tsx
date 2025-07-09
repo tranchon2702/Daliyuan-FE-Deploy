@@ -6,10 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { contactInfo, stores, useContactForm, iconMap } from "./Contact.script.js";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const { form, handleChange, handleSubmit } = useContactForm();
+
+  const translatedContactInfo = contactInfo(t);
 
   const iconComponentMap = {
     MapPin,
@@ -26,14 +30,13 @@ const Contact = () => {
       <section className="py-16 bg-gradient-to-b from-dessert-light to-background">
         <div className="container mx-auto px-4 text-center">
           <Badge variant="secondary" className="mb-4 text-red-700 bg-red-100 border-red-300">
-            Liên hệ
+            {t('contact_page.badge')}
           </Badge>
           <h1 className="font-serif text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Kết nối với chúng tôi
+            {t('contact_page.hero_title')}
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. 
-            Hãy liên hệ với The350F để được tư vấn và đặt hàng.
+            {t('contact_page.hero_subtitle')}
           </p>
         </div>
       </section>
@@ -42,7 +45,7 @@ const Contact = () => {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {contactInfo.map((info, index) => {
+            {translatedContactInfo.map((info, index) => {
               const Icon = iconComponentMap[info.icon];
               return (
                 <Card key={index} className="text-center p-6 hover:shadow-elegant transition-shadow">
@@ -68,53 +71,53 @@ const Contact = () => {
             {/* Contact Form */}
             <Card className="p-8">
               <h2 className="font-serif text-2xl font-bold mb-6">
-                Gửi tin nhắn cho chúng tôi
+                {t('contact_page.form.title')}
               </h2>
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Họ và tên *
+                      {t('contact_page.form.name_label')}
                     </label>
-                    <Input name="name" value={form.name} onChange={handleChange} placeholder="Nhập họ và tên" />
+                    <Input name="name" value={form.name} onChange={handleChange} placeholder={t('contact_page.form.name_placeholder')} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Số điện thoại *
+                      {t('contact_page.form.phone_label')}
                     </label>
-                    <Input name="phone" value={form.phone} onChange={handleChange} placeholder="Nhập số điện thoại" />
+                    <Input name="phone" value={form.phone} onChange={handleChange} placeholder={t('contact_page.form.phone_placeholder')} />
                   </div>
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Email *
+                    {t('contact_page.form.email_label')}
                   </label>
-                  <Input name="email" type="email" value={form.email} onChange={handleChange} placeholder="Nhập địa chỉ email" />
+                  <Input name="email" type="email" value={form.email} onChange={handleChange} placeholder={t('contact_page.form.email_placeholder')} />
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Chủ đề
+                    {t('contact_page.form.subject_label')}
                   </label>
-                  <Input name="subject" value={form.subject} onChange={handleChange} placeholder="Nhập chủ đề" />
+                  <Input name="subject" value={form.subject} onChange={handleChange} placeholder={t('contact_page.form.subject_placeholder')} />
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Nội dung *
+                    {t('contact_page.form.message_label')}
                   </label>
                   <Textarea
                     name="message"
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Nhập nội dung tin nhắn..."
+                    placeholder={t('contact_page.form.message_placeholder')}
                     rows={5}
                   />
                 </div>
                 
                 <Button className="w-full" size="lg" type="submit">
-                  Gửi tin nhắn
+                  {t('contact_page.form.submit_button')}
                 </Button>
               </form>
             </Card>
@@ -125,10 +128,10 @@ const Contact = () => {
                 <div className="text-center">
                   <MapPin className="h-12 w-12 text-dessert-primary mx-auto mb-4" />
                   <p className="text-muted-foreground">
-                    Bản đồ cửa hàng
+                    {t('contact_page.map.title')}
                   </p>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Nhấn để xem chi tiết vị trí
+                    {t('contact_page.map.subtitle')}
                   </p>
                 </div>
               </div>
@@ -142,19 +145,19 @@ const Contact = () => {
       <section className="py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="font-serif text-2xl font-bold mb-6">
-            Theo dõi chúng tôi
+            {t('contact_page.social.title')}
           </h2>
           <p className="text-muted-foreground mb-8">
-            Cập nhật những sản phẩm mới và ưu đãi đặc biệt
+            {t('contact_page.social.subtitle')}
           </p>
           <div className="flex justify-center space-x-4">
             <Button variant="outline" size="lg" className="space-x-2">
               <Facebook className="h-5 w-5" />
-              <span>Facebook</span>
+              <span>{t('contact_page.social.facebook')}</span>
             </Button>
             <Button variant="outline" size="lg" className="space-x-2">
               <Instagram className="h-5 w-5" />
-              <span>Instagram</span>
+              <span>{t('contact_page.social.instagram')}</span>
             </Button>
           </div>
         </div>

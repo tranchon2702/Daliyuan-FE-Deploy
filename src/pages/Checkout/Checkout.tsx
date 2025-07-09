@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ import {
 const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
   
   const [shippingInfo, setShippingInfo] = useState(initialShippingInfo);
   const [otherShippingInfo, setOtherShippingInfo] = useState(initialOtherShippingInfo);
@@ -142,7 +144,8 @@ const Checkout = () => {
         try {
           const wardsData = await getWards(otherShippingInfo.district);
           setOtherWards(wardsData);
-        } catch (error) {
+        } catch (error)
+        {
           console.error('Error loading other wards:', error);
           setOtherWards([]);
         }
@@ -192,7 +195,7 @@ const Checkout = () => {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-dessert-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Đang tải dữ liệu...</p>
+              <p className="text-muted-foreground">{t('checkout_page.loading')}</p>
             </div>
           </div>
         </div>
@@ -213,8 +216,8 @@ const Checkout = () => {
               <ArrowLeft className="h-5 w-5" />
             </Link>
             <div>
-              <h1 className="font-serif text-3xl font-bold">Thanh Toán</h1>
-              <p className="text-muted-foreground">Hoàn tất đơn hàng của bạn</p>
+              <h1 className="font-serif text-3xl font-bold">{t('checkout_page.title')}</h1>
+              <p className="text-muted-foreground">{t('checkout_page.subtitle')}</p>
             </div>
           </div> 
         </div>
@@ -228,48 +231,48 @@ const Checkout = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Truck className="h-5 w-5" />
-                    Thông Tin Giao Hàng
+                    {t('checkout_page.shipping_info.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="fullName">Họ và tên *</Label>
+                      <Label htmlFor="fullName">{t('checkout_page.shipping_info.full_name_label')}</Label>
                       <Input
                         id="fullName"
                         value={shippingInfo.fullName}
                         onChange={(e) => handleInputChange('fullName', e.target.value)}
-                        placeholder="Nhập họ và tên"
+                        placeholder={t('checkout_page.shipping_info.full_name_placeholder')}
                         required
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email *</Label>
+                      <Label htmlFor="email">{t('checkout_page.shipping_info.email_label')}</Label>
                       <Input
                         id="email"
                         type="email"
                         value={shippingInfo.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        placeholder="Nhập email"
+                        placeholder={t('checkout_page.shipping_info.email_placeholder')}
                         required
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Số điện thoại *</Label>
+                    <Label htmlFor="phone">{t('checkout_page.shipping_info.phone_label')}</Label>
                     <Input
                       id="phone"
                       value={shippingInfo.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      placeholder="Nhập số điện thoại"
+                      placeholder={t('checkout_page.shipping_info.phone_placeholder')}
                       required
                     />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="city">Tỉnh/Thành phố *</Label>
+                      <Label htmlFor="city">{t('checkout_page.shipping_info.city_label')}</Label>
                       <select
                         id="city"
                         value={shippingInfo.city}
@@ -277,14 +280,14 @@ const Checkout = () => {
                         className="w-full rounded-lg border border-dessert-primary focus:border-dessert-primary focus:ring-2 focus:ring-dessert-primary/30 px-4 py-2 text-base bg-white shadow-sm transition-colors"
                         required
                       >
-                        <option value="">Chọn tỉnh/thành phố</option>
+                        <option value="">{t('checkout_page.shipping_info.city_placeholder')}</option>
                         {provinces.map(province => (
                           <option key={province.code} value={province.code}>{province.name}</option>
                         ))}
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="district">Quận/Huyện *</Label>
+                      <Label htmlFor="district">{t('checkout_page.shipping_info.district_label')}</Label>
                       <select
                         id="district"
                         value={shippingInfo.district}
@@ -293,7 +296,7 @@ const Checkout = () => {
                         required
                         disabled={!shippingInfo.city}
                       >
-                        <option value="">Chọn quận/huyện</option>
+                        <option value="">{t('checkout_page.shipping_info.district_placeholder')}</option>
                         {districts.map(district => (
                           <option key={district.code} value={district.code}>{district.name}</option>
                         ))}
@@ -303,7 +306,7 @@ const Checkout = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="ward">Xã/Phường *</Label>
+                      <Label htmlFor="ward">{t('checkout_page.shipping_info.ward_label')}</Label>
                       <select
                         id="ward"
                         value={shippingInfo.ward}
@@ -312,19 +315,19 @@ const Checkout = () => {
                         required
                         disabled={!shippingInfo.district}
                       >
-                        <option value="">Chọn xã/phường</option>
+                        <option value="">{t('checkout_page.shipping_info.ward_placeholder')}</option>
                         {wards.map(ward => (
                           <option key={ward.code} value={ward.code}>{ward.name}</option>
                         ))}
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="address">Địa chỉ *</Label>
+                      <Label htmlFor="address">{t('checkout_page.shipping_info.address_label')}</Label>
                       <Input
                         id="address"
                         value={shippingInfo.address}
                         onChange={(e) => handleInputChange('address', e.target.value)}
-                        placeholder="Số nhà, tên đường"
+                        placeholder={t('checkout_page.shipping_info.address_placeholder')}
                         required
                       />
                     </div>
@@ -332,7 +335,7 @@ const Checkout = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="deliveryDate">Ngày giao hàng *</Label>
+                      <Label htmlFor="deliveryDate">{t('checkout_page.shipping_info.delivery_date_label')}</Label>
                       <Input
                         id="deliveryDate"
                         type="date"
@@ -343,7 +346,7 @@ const Checkout = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="deliveryTime">Giờ giao sớm nhất *</Label>
+                      <Label htmlFor="deliveryTime">{t('checkout_page.shipping_info.delivery_time_label')}</Label>
                       <select
                         id="deliveryTime"
                         value={shippingInfo.deliveryTime || ''}
@@ -351,7 +354,7 @@ const Checkout = () => {
                         className="w-full rounded-lg border border-dessert-primary focus:border-dessert-primary focus:ring-2 focus:ring-dessert-primary/30 px-4 py-2 text-base bg-white shadow-sm transition-colors"
                         required
                       >
-                        <option value="">Chọn giờ</option>
+                        <option value="">{t('checkout_page.shipping_info.delivery_time_placeholder')}</option>
                         {DELIVERY_TIMES.map(time => (
                           <option key={time} value={time}>{time}</option>
                         ))}
@@ -364,7 +367,7 @@ const Checkout = () => {
               {/* Thông tin giao hàng bổ sung */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Thông tin giao hàng</CardTitle>
+                  <CardTitle>{t('checkout_page.other_shipping_info.title')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center space-x-2">
@@ -373,31 +376,31 @@ const Checkout = () => {
                       checked={shippingInfo.otherAddress === 'true'}
                       onCheckedChange={(checked) => handleInputChange('otherAddress', checked ? 'true' : '')}
                     />
-                    <Label htmlFor="otherAddress">Giao hàng tới địa chỉ khác?</Label>
+                    <Label htmlFor="otherAddress">{t('checkout_page.other_shipping_info.other_address_checkbox')}</Label>
                   </div>
                   {shippingInfo.otherAddress === 'true' && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                       <div className="space-y-2">
-                        <Label htmlFor="otherFullName">Họ tên người nhận *</Label>
+                        <Label htmlFor="otherFullName">{t('checkout_page.other_shipping_info.full_name_label')}</Label>
                         <Input
                           id="otherFullName"
                           value={otherShippingInfo.fullName}
                           onChange={(e) => handleOtherInputChange('fullName', e.target.value)}
-                          placeholder="Nhập họ tên người nhận"
+                          placeholder={t('checkout_page.other_shipping_info.full_name_placeholder')}
                           required
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="otherPhone">Số điện thoại của người nhận (tuỳ chọn)</Label>
+                        <Label htmlFor="otherPhone">{t('checkout_page.other_shipping_info.phone_label')}</Label>
                         <Input
                           id="otherPhone"
                           value={otherShippingInfo.phone}
                           onChange={(e) => handleOtherInputChange('phone', e.target.value)}
-                          placeholder="Số điện thoại của người nhận"
+                          placeholder={t('checkout_page.other_shipping_info.phone_placeholder')}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="otherCity">Tỉnh/Thành phố *</Label>
+                        <Label htmlFor="otherCity">{t('checkout_page.other_shipping_info.city_label')}</Label>
                         <select
                           id="otherCity"
                           value={otherShippingInfo.city}
@@ -405,14 +408,14 @@ const Checkout = () => {
                           className="w-full rounded-lg border border-dessert-primary focus:border-dessert-primary focus:ring-2 focus:ring-dessert-primary/30 px-4 py-2 text-base bg-white shadow-sm transition-colors"
                           required
                         >
-                          <option value="">Chọn tỉnh/thành phố</option>
+                          <option value="">{t('checkout_page.shipping_info.city_placeholder')}</option>
                           {provinces.map(province => (
                             <option key={province.code} value={province.code}>{province.name}</option>
                           ))}
                         </select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="otherDistrict">Quận/Huyện *</Label>
+                        <Label htmlFor="otherDistrict">{t('checkout_page.other_shipping_info.district_label')}</Label>
                         <select
                           id="otherDistrict"
                           value={otherShippingInfo.district}
@@ -420,14 +423,14 @@ const Checkout = () => {
                           className="w-full rounded-lg border border-dessert-primary focus:border-dessert-primary focus:ring-2 focus:ring-dessert-primary/30 px-4 py-2 text-base bg-white shadow-sm transition-colors"
                           required
                         >
-                          <option value="">Chọn quận/huyện</option>
+                          <option value="">{t('checkout_page.shipping_info.district_placeholder')}</option>
                           {otherDistricts.map(district => (
                             <option key={district.code} value={district.code}>{district.name}</option>
                           ))}
                         </select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="otherWard">Xã/Phường *</Label>
+                        <Label htmlFor="otherWard">{t('checkout_page.other_shipping_info.ward_label')}</Label>
                         <select
                           id="otherWard"
                           value={otherShippingInfo.ward}
@@ -435,32 +438,32 @@ const Checkout = () => {
                           className="w-full rounded-lg border border-dessert-primary focus:border-dessert-primary focus:ring-2 focus:ring-dessert-primary/30 px-4 py-2 text-base bg-white shadow-sm transition-colors"
                           required
                         >
-                          <option value="">Chọn xã/phường</option>
+                          <option value="">{t('checkout_page.shipping_info.ward_placeholder')}</option>
                           {otherWards.map(ward => (
                             <option key={ward.code} value={ward.code}>{ward.name}</option>
                           ))}
                         </select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="otherAddressDetail">Địa chỉ *</Label>
+                        <Label htmlFor="otherAddressDetail">{t('checkout_page.other_shipping_info.address_label')}</Label>
                         <Input
                           id="otherAddressDetail"
                           value={otherShippingInfo.address}
                           onChange={(e) => handleOtherInputChange('address', e.target.value)}
-                          placeholder="Số nhà, tên đường"
+                          placeholder={t('checkout_page.shipping_info.address_placeholder')}
                           required
                         />
                       </div>
                     </div>
                   )}
                   <div className="space-y-2 mt-4">
-                    <Label htmlFor="orderNote">Ghi chú đơn hàng (tuỳ chọn)</Label>
+                    <Label htmlFor="orderNote">{t('checkout_page.other_shipping_info.order_note_label')}</Label>
                     <textarea
                       id="orderNote"
                       value={shippingInfo.orderNote || ''}
                       onChange={(e) => handleInputChange('orderNote', e.target.value)}
                       className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
-                      placeholder="Notes about your order, e.g. special notes for delivery."
+                      placeholder={t('checkout_page.other_shipping_info.order_note_placeholder')}
                       rows={3}
                     />
                   </div>
@@ -473,7 +476,7 @@ const Checkout = () => {
               <div className="sticky top-6 flex flex-col gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Đơn hàng của bạn</CardTitle>
+                    <CardTitle>{t('checkout_page.order_summary.title')}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {/* Order Items */}
@@ -489,7 +492,7 @@ const Checkout = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">{item.name}</p>
-                            <p className="text-xs text-muted-foreground">Số lượng: {item.quantity}</p>
+                            <p className="text-xs text-muted-foreground">{t('checkout_page.order_summary.quantity')} {item.quantity}</p>
                           </div>
                           <p className="text-sm font-medium">{formatPrice(item.price * item.quantity)}</p>
                         </div>
@@ -501,27 +504,27 @@ const Checkout = () => {
                     {/* Order Totals */}
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span>Tạm tính:</span>
+                        <span>{t('checkout_page.order_summary.subtotal')}</span>
                         <span>{formatPrice(subtotal)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span>Phí vận chuyển:</span>
+                        <span>{t('checkout_page.order_summary.shipping')}</span>
                         <span>{formatPrice(shipping)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span>Thuế VAT (10%):</span>
+                        <span>{t('checkout_page.order_summary.tax')}</span>
                         <span>{formatPrice(tax)}</span>
                       </div>
                       <Separator />
                       <div className="flex justify-between font-semibold">
-                        <span>Tổng cộng:</span>
+                        <span>{t('checkout_page.order_summary.total')}</span>
                         <span className="text-dessert-primary">{formatPrice(total)}</span>
                       </div>
                     </div>
 
                     {/* Place Order Button */}
                     <Button type="submit" className="w-full" size="lg">
-                      Đặt Hàng - {formatPrice(total)}
+                      {t('checkout_page.order_summary.submit_button', { total: formatPrice(total) })}
                     </Button>
                   </CardContent>
                 </Card>
@@ -539,20 +542,20 @@ const Checkout = () => {
                         />
                         <div className="space-y-3">
                           <Label htmlFor="saveInfo" className="text-sm font-medium leading-relaxed">
-                            THÔNG BÁO CẦN CHÚ Ý
+                            {t('checkout_page.notice.title')}
                           </Label>
                           <div className="text-sm text-muted-foreground space-y-2 leading-relaxed">
                             <p>
-                              Chúng tôi sẽ gọi lại cho bạn để xác nhận đơn hàng và báo phí ship chính xác.
+                              {t('checkout_page.notice.line1')}
                             </p>
                             <p>
-                              Bạn có thể cung cấp số tài khoản cho nhân viên tư vấn để được đổi hình thức thanh toán chuyển khoản trước.
+                              {t('checkout_page.notice.line2')}
                             </p>
                             <div className="flex items-center gap-2 mt-3 p-1 border border-dessert-primary rounded-lg bg-white shadow-sm">
                               <span className="text-dessert-primary text-xl">
                                 <PhoneCall className="inline-block mr-1" size={20} />
                               </span>
-                              <span className="font-semibold text-base text-gray-700">Hotline:</span>
+                              <span className="font-semibold text-base text-gray-700">{t('checkout_page.notice.hotline')}</span>
                               <span className="font-mono text-xl font-bold text-dessert-primary ml-2 tracking-wider">{HOTLINE}</span>
                             </div>
                           </div>

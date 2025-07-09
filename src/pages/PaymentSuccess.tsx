@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, Package, Truck, Download } from "lucide-react";
 
 const PaymentSuccess = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     // Clear cart items from localStorage (if using localStorage for cart)
     // localStorage.removeItem('cartItems');
@@ -28,10 +30,10 @@ const PaymentSuccess = () => {
 
           {/* Success Message */}
           <h1 className="font-serif text-3xl font-bold mb-4">
-            Đặt hàng thành công!
+            {t('payment_success_page.title')}
           </h1>
           <p className="text-muted-foreground mb-8">
-            Cảm ơn bạn đã mua hàng tại The350F. Đơn hàng của bạn đã được xác nhận và sẽ được xử lý trong thời gian sớm nhất.
+            {t('payment_success_page.subtitle')}
           </p>
 
           {/* Order Details Card */}
@@ -39,20 +41,20 @@ const PaymentSuccess = () => {
             <CardContent className="p-6">
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Mã đơn hàng:</span>
+                  <span className="font-medium">{t('payment_success_page.order_details.order_number')}</span>
                   <span className="font-bold text-dessert-primary">#{orderNumber}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Ngày đặt hàng:</span>
+                  <span className="font-medium">{t('payment_success_page.order_details.order_date')}</span>
                   <span>{new Date().toLocaleDateString('vi-VN')}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Dự kiến giao hàng:</span>
+                  <span className="font-medium">{t('payment_success_page.order_details.estimated_delivery')}</span>
                   <span>{estimatedDelivery}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Phương thức thanh toán:</span>
-                  <span>Thẻ tín dụng</span>
+                  <span className="font-medium">{t('payment_success_page.order_details.payment_method')}</span>
+                  <span>{t('payment_success_page.order_details.payment_method_value')}</span>
                 </div>
               </div>
             </CardContent>
@@ -62,18 +64,18 @@ const PaymentSuccess = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div className="text-center p-4 bg-card rounded-lg border">
               <Package className="h-8 w-8 text-dessert-primary mx-auto mb-2" />
-              <h3 className="font-medium mb-1">Chuẩn bị hàng</h3>
-              <p className="text-sm text-muted-foreground">Đơn hàng đang được chuẩn bị</p>
+              <h3 className="font-medium mb-1">{t('payment_success_page.next_steps.preparing.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('payment_success_page.next_steps.preparing.description')}</p>
             </div>
             <div className="text-center p-4 bg-card rounded-lg border">
               <Truck className="h-8 w-8 text-dessert-primary mx-auto mb-2" />
-              <h3 className="font-medium mb-1">Vận chuyển</h3>
-              <p className="text-sm text-muted-foreground">Giao hàng trong 2-3 ngày</p>
+              <h3 className="font-medium mb-1">{t('payment_success_page.next_steps.shipping.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('payment_success_page.next_steps.shipping.description')}</p>
             </div>
             <div className="text-center p-4 bg-card rounded-lg border">
               <Download className="h-8 w-8 text-dessert-primary mx-auto mb-2" />
-              <h3 className="font-medium mb-1">Hóa đơn</h3>
-              <p className="text-sm text-muted-foreground">Gửi qua email</p>
+              <h3 className="font-medium mb-1">{t('payment_success_page.next_steps.invoice.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('payment_success_page.next_steps.invoice.description')}</p>
             </div>
           </div>
 
@@ -81,26 +83,26 @@ const PaymentSuccess = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/">
               <Button variant="outline" size="lg">
-                Tiếp tục mua sắm
+                {t('payment_success_page.buttons.continue_shopping')}
               </Button>
             </Link>
             <Link to="/orders">
               <Button size="lg">
-                Xem đơn hàng
+                {t('payment_success_page.buttons.view_order')}
               </Button>
             </Link>
           </div>
 
           {/* Contact Info */}
           <div className="mt-12 p-6 bg-dessert-light/30 rounded-lg">
-            <h3 className="font-medium mb-2">Cần hỗ trợ?</h3>
+            <h3 className="font-medium mb-2">{t('payment_success_page.support.title')}</h3>
             <p className="text-sm text-muted-foreground mb-3">
-              Nếu bạn có bất kỳ câu hỏi nào về đơn hàng, vui lòng liên hệ với chúng tôi.
+              {t('payment_success_page.support.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-2 justify-center text-sm">
-              <span>📞 Hotline: 1900-1234</span>
+              <span>{t('payment_success_page.support.hotline')}</span>
               <span className="hidden sm:inline">|</span>
-              <span>📧 Email: support@the350f.com</span>
+              <span>{t('payment_success_page.support.email')}</span>
             </div>
           </div>
         </div>

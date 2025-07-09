@@ -1,52 +1,40 @@
 import { useState } from "react";
 
-export const contactInfo = [
+export const contactInfo = (t) => [
   {
     icon: 'MapPin',
-    title: 'Địa chỉ',
-    details: [
-      '123 Nguyễn Văn A, Quận 1, TP.HCM',
-      '456 Lê Văn B, Quận 3, TP.HCM',
-    ],
+    title: t('contact_page.info.address.title'),
+    details: t('contact_page.info.address.details', { returnObjects: true }),
   },
   {
     icon: 'Phone',
-    title: 'Điện thoại',
-    details: [
-      'Hotline: 0123 456 789',
-      'Đặt hàng: 0987 654 321',
-    ],
+    title: t('contact_page.info.phone.title'),
+    details: t('contact_page.info.phone.details', { returnObjects: true }),
   },
   {
     icon: 'Mail',
-    title: 'Email',
-    details: [
-      'info@the350f.com',
-      'order@the350f.com',
-    ],
+    title: t('contact_page.info.email.title'),
+    details: t('contact_page.info.email.details', { returnObjects: true }),
   },
   {
     icon: 'Clock',
-    title: 'Giờ mở cửa',
-    details: [
-      'Thứ 2 - Chủ nhật: 8:00 - 22:00',
-      'Nghỉ lễ: 9:00 - 21:00',
-    ],
+    title: t('contact_page.info.hours.title'),
+    details: t('contact_page.info.hours.details', { returnObjects: true }),
   },
 ];
 
-export const stores = [
+export const stores = (t) => [
   {
-    name: 'Cửa hàng Quận 1',
-    address: '123 Nguyễn Văn A, Quận 1, TP.HCM',
+    name: 'Cửa hàng Quận 1', // This could also be translated if needed
+    address: t('contact_page.info.address.details.0'),
     phone: '0123 456 789',
     hours: '8:00 - 22:00',
     image:
       'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
   },
   {
-    name: 'Cửa hàng Quận 3',
-    address: '456 Lê Văn B, Quận 3, TP.HCM',
+    name: 'Cửa hàng Quận 3', // This could also be translated if needed
+    address: t('contact_page.info.address.details.1'),
     phone: '0987 654 321',
     hours: '8:00 - 22:00',
     image:

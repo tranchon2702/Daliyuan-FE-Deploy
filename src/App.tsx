@@ -13,6 +13,12 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import MyAccount from "./pages/MyAccount/MyAccount";
 import NotFound from "./pages/NotFound";
 import PaymentMethods from "./pages/PaymentMethods/PaymentMethods";
+import AdminLayout from "./pages/Admin/Views/AdminLayout";
+import AdminProductsPage from "./pages/Admin/Views/AdminProductsPage";
+import AdminDashboardPage from "./pages/Admin/Views/AdminDashboardPage";
+import AdminNewsPage from "./pages/Admin/Views/AdminNewsPage";
+import AdminSystemPage from "./pages/Admin/Views/AdminSystemPage";
+import AdminOrdersPage from "./pages/Admin/Views/AdminOrdersPage";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +38,13 @@ const App = () => (
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/my-account" element={<MyAccount />} />
           <Route path="/hinh-thuc-thanh-toan" element={<PaymentMethods />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboardPage />} />
+            <Route path="products" element={<AdminProductsPage />} />
+            <Route path="news" element={<AdminNewsPage />} />
+            <Route path="system" element={<AdminSystemPage />} />
+            <Route path="orders" element={<AdminOrdersPage />} />
+          </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
