@@ -86,7 +86,7 @@ const PaymentSuccess = () => {
                 {t('payment_success_page.buttons.continue_shopping')}
               </Button>
             </Link>
-            <Link to="/orders">
+            <Link to={`/orders/${orderNumber}`}>
               <Button size="lg">
                 {t('payment_success_page.buttons.view_order')}
               </Button>

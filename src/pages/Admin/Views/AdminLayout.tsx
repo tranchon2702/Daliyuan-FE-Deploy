@@ -82,12 +82,12 @@ const AdminLayout = () => {
                 {!sidebarCollapsed && <span>Quản lý sản phẩm</span>}
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/admin/news" className={navLinkClasses}>
                 <Newspaper className="h-5 w-5" />
                 {!sidebarCollapsed && <span>Tin tức</span>}
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to="/admin/system" className={navLinkClasses}>
                 <Settings className="h-5 w-5" />

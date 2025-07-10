@@ -400,13 +400,18 @@
     "view_cart": "Xem giỏ hàng",
     "checkout": "Thanh toán",
     "item_added": "Đã thêm sản phẩm vào giỏ hàng!",
-    "failed_to_add": "Không thể thêm sản phẩm vào giỏ hàng."
+    "failed_to_add": "Không thể thêm sản phẩm vào giỏ hàng.",
+    "total": "Tổng cộng",
+    "checkout_button": "Thanh toán",
+    "view_cart_button": "Xem giỏ hàng"
   },
   "product_modal": {
     "select_options": "Vui lòng chọn các tùy chọn sản phẩm",
     "adding_to_cart": "Đang thêm vào giỏ hàng...",
     "add_to_cart_success": "Thêm vào giỏ hàng thành công!",
-    "add_to_cart_failed": "Thêm vào giỏ hàng thất bại!"
+    "add_to_cart_failed": "Thêm vào giỏ hàng thất bại!",
+    "default_description": "Bánh cao cấp làm từ nguyên liệu tươi ngon, hương vị tuyệt vời và độc đáo.",
+    "add_to_cart_button": "Thêm vào giỏ hàng"
   },
   "payment_methods_page": {
     "title": "Phương thức thanh toán",
@@ -428,5 +433,41 @@
       "title": "Thanh toán trực tuyến qua cổng VNPAY",
       "description": "Chúng tôi chấp nhận thanh toán qua thẻ ATM nội địa, Visa, MasterCard, JCB và ví VNPAY. Giao dịch của bạn sẽ được xử lý an toàn và bảo mật tuyệt đối."
     }
+  },
+  "login_modal": {
+    "title": "Đăng Nhập",
+    "account_label": "Tài khoản",
+    "account_placeholder": "Tên tài khoản hoặc địa chỉ email",
+    "password_label": "Mật khẩu",
+    "password_placeholder": "Nhập mật khẩu",
+    "remember_me": "Ghi nhớ đăng nhập",
+    "forgot_password": "Quên mật khẩu?",
+    "logging_in": "Đang đăng nhập...",
+    "login_button": "Đăng Nhập",
+    "or": "hoặc",
+    "processing": "Đang xử lý...",
+    "login_with_google": "Đăng nhập với Google",
+    "no_account": "Chưa có tài khoản?",
+    "register_now": "Đăng ký ngay"
+  },
+  "order_detail": {
+    "title": "Chi tiết đơn hàng",
+    "order_number": "Mã đơn hàng:",
+    "order_date": "Ngày đặt hàng:",
+    "status": {
+      "label": "Trạng thái:",
+      "processing": "Đang xử lý",
+      "delivered": "Đã giao",
+      "cancelled": "Đã hủy"
+    },
+    "payment_method": {
+      "label": "Phương thức thanh toán:",
+      "credit_card": "Thẻ tín dụng",
+      "cod": "Thanh toán khi nhận hàng",
+      "bank_transfer": "Chuyển khoản ngân hàng"
+    },
+    "products": "Sản phẩm",
+    "total": "Tổng cộng",
+    "back_to_orders": "Quay lại danh sách đơn hàng"
   }
 }

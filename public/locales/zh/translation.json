@@ -422,5 +422,41 @@
     "success_desc": "订单号: {{orderId}}",
     "error_title": "错误",
     "error_desc": "处理订单时发生错误"
+  },
+  "login_modal": {
+    "title": "登录",
+    "account_label": "账户",
+    "account_placeholder": "用户名或电子邮箱",
+    "password_label": "密码",
+    "password_placeholder": "请输入密码",
+    "remember_me": "记住登录信息",
+    "forgot_password": "忘记密码？",
+    "logging_in": "正在登录...",
+    "login_button": "登录",
+    "or": "或",
+    "processing": "正在处理...",
+    "login_with_google": "使用 Google 登录",
+    "no_account": "还没有账户？",
+    "register_now": "立即注册"
+  },
+  "order_detail": {
+    "title": "订单详情",
+    "order_number": "订单号:",
+    "order_date": "下单日期:",
+    "status": {
+      "label": "状态:",
+      "processing": "处理中",
+      "delivered": "已送达",
+      "cancelled": "已取消"
+    },
+    "payment_method": {
+      "label": "付款方式:",
+      "credit_card": "信用卡",
+      "cod": "货到付款",
+      "bank_transfer": "银行转账"
+    },
+    "products": "产品",
+    "total": "总计",
+    "back_to_orders": "返回订单列表"
   }
 } 

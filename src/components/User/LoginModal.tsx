@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useLoginModal, LoginModalProps } from "./LoginModal.script.js";
 import GoogleOAuthNotice from "@/components/GoogleOAuthNotice";
+import { useTranslation } from "react-i18next";
 
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const {
@@ -21,6 +22,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     handleRegister,
     isGoogleConfigured,
   } = useLoginModal(onClose);
+  const { t } = useTranslation();
 
   if (!isOpen) return null;
 
@@ -28,7 +30,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent side="right" className="w-full max-w-xl">
         <SheetHeader>
-          <SheetTitle className="text-xl font-semibold text-dessert-primary">Đăng Nhập</SheetTitle>
+          <SheetTitle className="text-xl font-semibold text-dessert-primary">{t('login_modal.title')}</SheetTitle>
         </SheetHeader>
         <div className="p-6 mt-7 overflow-y-auto max-h-[calc(100vh-64px)]">
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -45,7 +47,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                Tài khoản
+                {t('login_modal.account_label')}
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -53,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                   id="email"
                   name="email"
                   type="text"
-                  placeholder="Tên tài khoản hoặc địa chỉ email"
+                  placeholder={t('login_modal.account_placeholder')}
                   value={formData.email}
                   onChange={handleInputChange}
                   className="pl-10 border-gray-300 focus:border-dessert-primary focus:ring-dessert-primary"
@@ -65,7 +67,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             {/* Password Field */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                Mật khẩu
+                {t('login_modal.password_label')}
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -73,7 +75,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Nhập mật khẩu"
+                  placeholder={t('login_modal.password_placeholder')}
                   value={formData.password}
                   onChange={handleInputChange}
                   className="pl-10 pr-10 border-gray-300 focus:border-dessert-primary focus:ring-dessert-primary"
@@ -106,7 +108,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                   disabled={isLoading}
                 />
                 <Label htmlFor="remember" className="text-sm text-gray-600">
-                  Ghi nhớ đăng nhập
+                  {t('login_modal.remember_me')}
                 </Label>
               </div>
               <button
@@ -115,7 +117,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 className="text-sm text-dessert-primary hover:text-red-500 transition-colors disabled:opacity-50"
                 disabled={isLoading}
               >
-                Quên mật khẩu?
+                {t('login_modal.forgot_password')}
               </button>
             </div>
             {/* Login Button */}
@@ -124,7 +126,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
               className="w-full bg-dessert-primary hover:bg-dessert-dark text-white font-medium py-3 transition-colors duration-300 disabled:opacity-50"
               disabled={isLoading}
             >
-              {isLoading ? "Đang đăng nhập..." : "Đăng Nhập"}
+              {isLoading ? t('login_modal.logging_in') : t('login_modal.login_button')}
             </Button>
             {/* Divider */}
             <div className="relative">
@@ -132,7 +134,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">hoặc</span>
+                <span className="px-2 bg-white text-gray-500">{t('login_modal.or')}</span>
               </div>
             </div>
             {/* Social Login */}
@@ -150,19 +152,19 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                {isLoading ? "Đang xử lý..." : "Đăng nhập với Google"}
+                {isLoading ? t('login_modal.processing') : t('login_modal.login_with_google')}
               </Button>
             </div>
             {/* Register Link */}
             <div className="text-center">
-              <span className="text-sm text-gray-600">Chưa có tài khoản? </span>
+              <span className="text-sm text-gray-600">{t('login_modal.no_account')}</span>
               <button
                 type="button"
                 onClick={handleRegister}
                 className="text-sm text-dessert-primary hover:text-red-500 font-medium transition-colors disabled:opacity-50"
                 disabled={isLoading}
               >
-                Đăng ký ngay
+                {t('login_modal.register_now')}
               </button>
             </div>
           </form>
