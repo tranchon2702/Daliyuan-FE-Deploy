@@ -1,77 +1,96 @@
-import { Heart } from "lucide-react";
-import { useState } from "react";
-import type { MouseEvent } from "react";
+import { Product } from '@/services/productService';
+import { Heart } from 'lucide-react';
 
 interface ProductCardProps {
-  id: string;
-  name: string;
-  price: string;
-  image: string;
-  onProductClick?: (id: string) => void;
-  onModalOpen?: (product: any) => void;
+  product: Product;
+  onProductClick: (id: string) => void;
+  onModalOpen: (product: Product) => void;
+  className?: string;
   isLarge?: boolean;
 }
 
-const ProductCard = ({
-  id,
-  name,
-  price,
-  image,
-  onProductClick,
-  onModalOpen,
-  isLarge = false,
-}: ProductCardProps) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
-
-  const handleProductClick = () => {
-    onProductClick?.(id);
+const ProductCard = ({ product, onProductClick, onModalOpen, className, isLarge = false }: ProductCardProps) => {
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   };
   
-  const handleModalClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onModalOpen?.({ id, name, price, image });
-  };
-
-  const handleWishlistClick = (e: MouseEvent) => {
-    e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
+  // Xác định URL ảnh
+  const getImageUrl = () => {
+    if (!product.mainImage) return '/placeholder.svg';
+    
+    // Xử lý base64
+    if (product.mainImage.startsWith('data:')) return product.mainImage;
+    
+    // Xử lý URL đầy đủ
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
+    return product.mainImage.startsWith('http') 
+      ? product.mainImage 
+      : `${backendUrl}${product.mainImage}`;
   };
 
   return (
-    <div className="group cursor-pointer relative flex flex-col h-full" onClick={handleProductClick}>
-      <div className="overflow-hidden mb-3 flex-grow">
+    <div 
+      className={
+        (isLarge
+          ? "product-card bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden flex flex-col h-full"
+          : "product-card bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden h-full flex flex-col")
+        + " group"
+      }
+      onClick={() => onProductClick(product._id)}
+    >
+      {/* Phần ảnh - chỉ phần này sẽ có hiệu ứng hover */}
+      <div className="relative overflow-hidden cursor-pointer flex-grow flex items-center justify-center">
         <img
-          src={image}
-          alt={name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          src={getImageUrl()}
+          alt={product.name}
+          className="w-full max-w-full object-contain bg-gray-50 transition-transform duration-500 ease-out group-hover:scale-110"
+          style={{ 
+            height: isLarge ? '380px' : '180px',
+            objectFit: 'contain',
+            padding: '8px'
+          }}
         />
-      </div>
-      <div className="flex justify-between items-start">
-        <div className="flex-1 overflow-hidden">
-          <h3 className={`font-medium text-gray-600 group-hover:text-black transition-colors mb-1 pr-2 truncate ${isLarge ? 'text-sm' : 'text-xs'}`}>
-            {name}
-          </h3>
-          <div className="relative h-5">
-            <p className={`absolute inset-0 text-gray-700 font-semibold transition-opacity duration-300 group-hover:opacity-0 ${isLarge ? 'text-xs' : 'text-xs'}`}>
-              {price}
-            </p>
-            <button
-              onClick={handleModalClick}
-              className={`absolute inset-0 w-full text-left font-semibold text-gray-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:text-red-500 ${isLarge ? 'text-xs' : 'text-xs'}`}
-            >
-              Show More
-            </button>
-          </div>
+        <div className="absolute top-2 right-2">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              // Logic to add to wishlist
+            }}
+            className="bg-white/70 rounded-full p-1.5 text-gray-500 hover:text-red-500 hover:bg-white"
+          >
+            <Heart className="w-4 h-4" />
+          </button>
         </div>
-        <button className="p-1" onClick={handleWishlistClick}>
-          <Heart
-            className={`h-5 w-5 transition-colors ${
-              isWishlisted
-                ? "text-red-500 fill-current"
-                : "text-gray-400 hover:text-red-500"
-            }`}
-          />
-        </button>
+      </div>
+      
+      {/* Phần thông tin sản phẩm - không có hiệu ứng hover */}
+      <div className="flex-shrink-0 p-1 bg-white w-full" style={{minHeight: isLarge ? '60px' : 'auto'}}>
+        <h3 className="font-medium text-gray-800 truncate text-sm mt-1" title={product.name}>
+          {product.name}
+        </h3>
+        <div className="mt-1 relative h-6">
+          {/* Giá bình thường */}
+          <span className="absolute left-0 top-0 transition-opacity duration-200 group-hover:opacity-0">
+            <span className="text-sm font-bold text-red-600">
+              {formatPrice(product.price)}
+            </span>
+            {product.discountPrice > 0 && (
+              <span className="text-xs text-gray-400 line-through ml-2">
+                {formatPrice(product.discountPrice)}
+              </span>
+            )}
+          </span>
+          {/* Nút Show more khi hover */}
+          <button
+            className="absolute left-0 top-0 text-orange-500 underline transition-opacity duration-200 opacity-0 group-hover:opacity-100 text-sm font-medium cursor-pointer"
+            onClick={e => {
+              e.stopPropagation();
+              onModalOpen(product);
+            }}
+          >
+            Show more
+          </button>
+        </div>
       </div>
     </div>
   );

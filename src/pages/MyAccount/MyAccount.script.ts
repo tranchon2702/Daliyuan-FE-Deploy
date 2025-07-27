@@ -2,16 +2,27 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProvinces, getDistricts, getWards } from "../Checkout/Checkout.script";
 import i18n from '@/i18n'; // Import i18n instance
+import axios from "axios";
+
+// API URL
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // ===== TYPES & INTERFACES =====
 export interface UserData {
+  _id?: string;
   fullName: string;
   email: string;
   phone: string;
-  address: string;
-  avatar: string;
+  address?: {
+    province?: string;
+    district?: string;
+    ward?: string;
+    street?: string;
+  };
+  avatar?: string;
   googleId?: string;
   loginMethod?: "email" | "google";
+  isAdmin?: boolean;
 }
 
 export interface Address {
@@ -140,8 +151,7 @@ export const useMyAccount = () => {
     fullName: "",
     email: "",
     phone: "",
-    address: "",
-    avatar: "https://via.placeholder.com/100"
+    address: {}
   });
 
   // Địa chỉ giao hàng (nhiều địa chỉ)
@@ -151,63 +161,75 @@ export const useMyAccount = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<UserData>(userData);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // ===== AUTHENTICATION & DATA LOADING =====
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       const isLoggedIn = localStorage.getItem("isLoggedIn");
-      if (!isLoggedIn) {
+      const token = localStorage.getItem("token");
+      
+      if (!isLoggedIn || !token) {
         navigate("/");
         return;
       }
 
-      const storedUserData = localStorage.getItem("userData");
-      if (storedUserData) {
-        const parsedUserData = JSON.parse(storedUserData);
-        const loginMethod = localStorage.getItem("loginMethod") || "email";
-        
-        // Nếu là Google, kiểm tra timeout 24h
-        if (loginMethod === "google") {
-          const loginTimestamp = localStorage.getItem("loginTimestamp");
-          if (loginTimestamp) {
-            const now = Date.now();
-            const loginTime = parseInt(loginTimestamp, 10);
-            const hours24 = 24 * 60 * 60 * 1000;
-            if (now - loginTime > hours24) {
-              // Hết hạn, tự động đăng xuất
-              localStorage.removeItem("isLoggedIn");
-              localStorage.removeItem("userData");
-              localStorage.removeItem("loginMethod");
-              localStorage.removeItem("googleAvatar");
-              localStorage.removeItem("loginTimestamp");
-              navigate("/");
-              return;
-            }
-          }
-        }
-        
-        if (loginMethod === "google" && parsedUserData.googleId) {
-          const googleAvatar = localStorage.getItem("googleAvatar");
-          if (googleAvatar) {
-            parsedUserData.avatar = googleAvatar;
-          }
-        }
-        
-        setUserData(prev => ({
-          ...prev,
-          ...parsedUserData,
-          loginMethod: loginMethod as "email" | "google"
-        }));
-        setEditData(prev => ({
-          ...prev,
-          ...parsedUserData,
-          loginMethod: loginMethod as "email" | "google"
-        }));
+      try {
+        setIsLoading(true);
+        // Lấy thông tin người dùng từ API
+        await fetchUserProfile(token);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        // Nếu token không hợp lệ, đăng xuất người dùng
+        handleLogout();
+      } finally {
+        setIsLoading(false);
       }
     };
 
     checkAuth();
   }, [navigate]);
+
+  // Lấy thông tin người dùng từ API
+  const fetchUserProfile = async (token: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/users/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const userProfile = response.data;
+      
+      // Kiểm tra và lấy avatar từ localStorage nếu đăng nhập bằng Google
+      const loginMethod = localStorage.getItem("loginMethod") || "email";
+      let avatar = userProfile.avatar;
+      
+      if (loginMethod === "google") {
+        const googleAvatar = localStorage.getItem("googleAvatar");
+        if (googleAvatar) {
+          avatar = googleAvatar;
+        }
+      }
+
+      const updatedUserData = {
+        ...userProfile,
+        avatar,
+        loginMethod: loginMethod as "email" | "google"
+      };
+
+      setUserData(updatedUserData);
+      setEditData(updatedUserData);
+      
+      // Cập nhật lại thông tin trong localStorage
+      localStorage.setItem("userData", JSON.stringify(updatedUserData));
+      
+      return userProfile;
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      throw error;
+    }
+  };
 
   // ===== ĐỊA CHỈ GIAO HÀNG (CRUD) =====
   // Load addresses from localStorage
@@ -248,142 +270,116 @@ export const useMyAccount = () => {
   const deleteAddress = (id: string) => {
     let newAddresses = addresses.filter(addr => addr.id !== id);
     // Nếu xóa địa chỉ mặc định, gán mặc định cho địa chỉ đầu tiên còn lại
-    if (!newAddresses.some(addr => addr.isDefault) && newAddresses.length > 0) {
+    if (addresses.find(a => a.id === id)?.isDefault && newAddresses.length > 0) {
       newAddresses[0].isDefault = true;
     }
     saveAddresses(newAddresses);
     showToast("my_account_page.toasts.delete_address_success");
   };
 
-  // Chọn địa chỉ mặc định
+  // Đặt địa chỉ mặc định
   const setDefaultAddress = (id: string) => {
-    const newAddresses = addresses.map(addr => ({ ...addr, isDefault: addr.id === id }));
+    const newAddresses = addresses.map(addr => ({
+      ...addr,
+      isDefault: addr.id === id
+    }));
     saveAddresses(newAddresses);
-    showToast("my_account_page.toasts.set_default_success");
+    showToast("my_account_page.toasts.default_address_set");
   };
 
-  // ===== MODAL LOCATION LOGIC =====
+  // ===== ADDRESS FORM MANAGEMENT =====
   const [showForm, setShowForm] = useState(false);
-  const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState<any>({
-    fullName: "",
-    phone: "",
-    address: "",
-    city: "",
-    district: "",
-    ward: ""
-  });
+  const [currentAddress, setCurrentAddress] = useState<Address | null>(null);
   const [provinces, setProvinces] = useState<any[]>([]);
   const [districts, setDistricts] = useState<any[]>([]);
   const [wards, setWards] = useState<any[]>([]);
-  const [loadingProvinces, setLoadingProvinces] = useState(false);
-  const [loadingDistricts, setLoadingDistricts] = useState(false);
-  const [loadingWards, setLoadingWards] = useState(false);
-
-  // Load provinces on open form
+  
+  // Load provinces on mount
   useEffect(() => {
-    if (showForm) {
-      setLoadingProvinces(true);
-      getProvinces().then(data => {
-        setProvinces(data);
-        setLoadingProvinces(false);
-      });
-    }
-  }, [showForm]);
+    const loadProvinces = async () => {
+      const data = await getProvinces();
+      setProvinces(data);
+    };
+    loadProvinces();
+  }, []);
 
-  // Load districts when city changes
-  useEffect(() => {
-    if (form.city) {
-      setLoadingDistricts(true);
-      getDistricts(form.city).then(data => {
-        setDistricts(data);
-        setLoadingDistricts(false);
-      });
-    } else {
-      setDistricts([]);
-      setForm(f => ({ ...f, district: "", ward: "" }));
-    }
-  }, [form.city]);
+  // Load districts when province changes
+  const handleProvinceChange = async (provinceCode: string) => {
+    const data = await getDistricts(provinceCode);
+    setDistricts(data);
+    setWards([]);
+  };
 
   // Load wards when district changes
-  useEffect(() => {
-    if (form.district) {
-      setLoadingWards(true);
-      getWards(form.district).then(data => {
-        setWards(data);
-        setLoadingWards(false);
-      });
-    } else {
-      setWards([]);
-      setForm(f => ({ ...f, ward: "" }));
-    }
-  }, [form.district]);
+  const handleDistrictChange = async (districtCode: string) => {
+    const data = await getWards(districtCode);
+    setWards(data);
+  };
 
-  // Reset form when closing
-  useEffect(() => {
-    if (!showForm) {
-      setEditId(null);
-      setForm({ fullName: "", phone: "", address: "", city: "", district: "", ward: "" });
-      setProvinces([]);
-      setDistricts([]);
-      setWards([]);
-    }
-  }, [showForm]);
-
+  // Form actions
   const onAddNew = () => {
-    setEditId(null);
+    setCurrentAddress(null);
     setShowForm(true);
   };
-  const onEdit = (addr: any) => {
-    setEditId(addr.id);
-    setForm({ ...addr });
+
+  const onEdit = (addr: Address) => {
+    setCurrentAddress(addr);
     setShowForm(true);
   };
+
   const onCancel = () => setShowForm(false);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Lấy tên từ danh sách dropdown
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
     const getNameByCode = (list: any[], code: string) => list.find(i => i.code == code)?.name || "";
-    const cityName = getNameByCode(provinces, form.city);
-    const districtName = getNameByCode(districts, form.district);
-    const wardName = getNameByCode(wards, form.ward);
-    const addressWithNames = {
-      ...form,
-      cityName,
-      districtName,
-      wardName,
+    
+    const cityCode = formData.get('city') as string;
+    const districtCode = formData.get('district') as string;
+    const wardCode = formData.get('ward') as string;
+    
+    const newAddress: Omit<Address, "id"> = {
+      fullName: formData.get('fullName') as string,
+      phone: formData.get('phone') as string,
+      address: formData.get('address') as string,
+      city: cityCode,
+      cityName: getNameByCode(provinces, cityCode),
+      district: districtCode,
+      districtName: getNameByCode(districts, districtCode),
+      ward: wardCode,
+      wardName: getNameByCode(wards, wardCode),
+      isDefault: formData.get('isDefault') === 'on'
     };
-    // Log giá trị form để chuẩn bị cho call API sau này
-    console.log("Form submit:", addressWithNames);
-
-    if (editId) {
-      updateAddress(editId, addressWithNames);
+    
+    if (currentAddress) {
+      // Update existing address
+      updateAddress(currentAddress.id, newAddress);
+      
+      // If setting as default, update all other addresses
+      if (newAddress.isDefault && !currentAddress.isDefault) {
+        const otherAddresses = addresses.filter(a => a.id !== currentAddress.id);
+        otherAddresses.forEach(a => {
+          if (a.isDefault) updateAddress(a.id, { isDefault: false });
+        });
+      }
     } else {
-      addAddress(addressWithNames);
+      // Add new address
+      addAddress(newAddress);
+      
+      // If setting as default, update all other addresses
+      if (newAddress.isDefault) {
+        addresses.forEach(a => {
+          if (a.isDefault) updateAddress(a.id, { isDefault: false });
+        });
+      }
     }
+    
     setShowForm(false);
   };
 
-  const modalProps = {
-    open: showForm,
-    onOpenChange: setShowForm,
-    form,
-    setForm,
-    loadingProvinces,
-    loadingDistricts,
-    loadingWards,
-    provinces,
-    districts,
-    wards,
-    handleSubmit,
-    editId,
-    onCancel,
-    onAddNew,
-    onEdit,
-  };
-
-  // ===== AVATAR HANDLERS =====
+  // ===== AVATAR MANAGEMENT =====
   const handleAvatarClick = () => {
     if (isEditing && fileInputRef.current) {
       fileInputRef.current.click();
@@ -394,85 +390,90 @@ export const useMyAccount = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-    if (!allowedTypes.includes(file.type)) {
-      showToast('Vui lòng chọn file hình ảnh (JPEG, PNG, GIF, WebP)', 'error');
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      showToast('Kích thước file không được vượt quá 5MB', 'error');
-      return;
-    }
-
     setIsUploadingAvatar(true);
 
     try {
+      // Trong một ứng dụng thực tế, bạn sẽ tải lên file này lên server
+      // Ở đây chúng ta sẽ giả lập bằng cách chuyển đổi file thành base64
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        
+        // Cập nhật avatar trong dữ liệu chỉnh sửa
         setEditData(prev => ({
           ...prev,
-          avatar: result
+          avatar: base64String
         }));
-        setIsUploadingAvatar(false);
-        showToast('Avatar đã được cập nhật thành công!');
-      };
-      reader.onerror = () => {
-        showToast('Có lỗi xảy ra khi đọc file', 'error');
+        
         setIsUploadingAvatar(false);
       };
       reader.readAsDataURL(file);
-
-      // TODO: Upload to server
-      // const formData = new FormData();
-      // formData.append('avatar', file);
-      // const response = await fetch('/api/upload-avatar', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-      // const data = await response.json();
-      // setEditData(prev => ({
-      //   ...prev,
-      //   avatar: data.avatarUrl
-      // }));
-
+      
+      // Reset input value to allow selecting the same file again
+      event.target.value = '';
     } catch (error) {
-      console.error('Error uploading avatar:', error);
-      showToast('Có lỗi xảy ra khi tải lên avatar', 'error');
+      console.error("Error uploading avatar:", error);
       setIsUploadingAvatar(false);
+      showToast("my_account_page.toasts.avatar_upload_error", "error");
     }
-  };
+};
 
   const resetToGoogleAvatar = () => {
-    const googleAvatar = localStorage.getItem("googleAvatar");
-    if (googleAvatar) {
-      setEditData(prev => ({
-        ...prev,
-        avatar: googleAvatar
-      }));
-      showToast('Đã khôi phục avatar Google!');
-    } else {
-      showToast('Không tìm thấy avatar Google', 'error');
+    if (userData.loginMethod === "google") {
+      const googleAvatar = localStorage.getItem("googleAvatar");
+      if (googleAvatar) {
+        setEditData(prev => ({
+          ...prev,
+          avatar: googleAvatar
+        }));
+        showToast("my_account_page.toasts.avatar_reset_success");
+      }
     }
   };
 
-  // ===== PROFILE HANDLERS =====
+  // ===== PROFILE MANAGEMENT =====
   const handleSaveProfile = async () => {
     try {
-      console.log("Updating profile:", editData);
+      setIsLoading(true);
+      const token = localStorage.getItem("token");
       
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      // Gọi API cập nhật thông tin người dùng
+      const response = await axios.put(
+        `${API_URL}/users/profile`, 
+        editData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const updatedUserData = response.data;
       
-      setUserData(editData);
+      // Cập nhật thông tin người dùng trong state và localStorage
+      setUserData({
+        ...updatedUserData,
+        avatar: editData.avatar, // Giữ lại avatar đã chọn
+        loginMethod: userData.loginMethod
+      });
+      
+      localStorage.setItem("userData", JSON.stringify({
+        ...updatedUserData,
+        avatar: editData.avatar,
+        loginMethod: userData.loginMethod
+      }));
+      
       setIsEditing(false);
-      
-      localStorage.setItem("userData", JSON.stringify(editData));
-      
       showToast("my_account_page.toasts.profile_update_success");
     } catch (error) {
       console.error("Error updating profile:", error);
-      showToast('Có lỗi xảy ra khi cập nhật thông tin', 'error');
+      showToast("my_account_page.toasts.profile_update_error", "error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -481,52 +482,52 @@ export const useMyAccount = () => {
     setIsEditing(false);
   };
 
-  // ===== AUTHENTICATION HANDLERS =====
+  // ===== AUTHENTICATION =====
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userData");
+    localStorage.removeItem("token");
     localStorage.removeItem("loginMethod");
     localStorage.removeItem("googleAvatar");
-    
+    localStorage.removeItem("loginTimestamp");
     navigate("/");
   };
 
   // ===== RETURN VALUES =====
   return {
-    // State
     userData,
     editData,
     setEditData,
-    orders,
     isEditing,
     setIsEditing,
+    isLoading,
     isUploadingAvatar,
     fileInputRef,
-    addresses,
-
-    // Constants
-    SIDEBAR_ITEMS,
-    
-    // Handlers
     handleAvatarClick,
     handleAvatarUpload,
     resetToGoogleAvatar,
     handleSaveProfile,
     handleCancelEdit,
     handleLogout,
-    addAddress,
-    updateAddress,
+    SIDEBAR_ITEMS,
+    orders,
+    addresses,
+    showForm,
+    currentAddress,
+    provinces,
+    districts,
+    wards,
+    handleProvinceChange,
+    handleDistrictChange,
+    onAddNew,
+    onEdit,
+    onCancel,
+    handleSubmit,
     deleteAddress,
     setDefaultAddress,
-    
-    // Utilities
     getStatusBadge,
     formatCurrency,
     formatDate,
-    getInitials,
-    showToast,
-
-    // Modal location props
-    modalProps,
+    getInitials
   };
 }; 

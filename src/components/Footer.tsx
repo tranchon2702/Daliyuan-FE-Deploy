@@ -1,16 +1,26 @@
 import { Facebook, Instagram, Phone, Mail, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import logoImg from "@/assets/LogoDaliyuan.png";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  
   return (
     <footer className="bg-dessert-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
-            <div className="mb-4">
-              <h3 className="font-serif text-2xl font-bold">The350F</h3>
+            <div className="mb-4 cursor-pointer" onClick={() => navigate('/')}>
+              <div className="bg-white rounded-lg p-2 inline-block mb-3">
+                <img 
+                  src={logoImg} 
+                  alt="Daliyuan Logo" 
+                  className="h-16 w-auto object-contain" 
+                />
+              </div>
               <p className="text-sm opacity-80 tracking-wider uppercase">
                 {t('footer.tagline')}
               </p>

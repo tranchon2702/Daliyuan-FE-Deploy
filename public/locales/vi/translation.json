@@ -8,16 +8,52 @@
       "payment": "Thanh Toán"
     },
     "menu": "Menu",
-    "tagline": "Dessert & More",
+    "tagline": "",
     "my_account": "Tài khoản của tôi",
     "logout": "Đăng xuất",
     "search_placeholder": "Tìm kiếm sản phẩm..."
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "back_to_home": "Về trang chủ",
+    "people": "người",
+    "category": "Danh mục"
   },
   "hero": {
     "title1": "Nghệ Thuật",
     "title2": "Bánh Ngọt",
     "subtitle": "Khám phá thế giới bánh ngọt tinh tế với hương vị tuyệt vời và thiết kế hoàn hảo. Mỗi sản phẩm là một tác phẩm nghệ thuật đầy cảm hứng.",
     "cta": "Khám Phá Ngay"
+  },
+  "product": {
+    "status": {
+      "inStock": "Còn hàng",
+      "outOfStock": "Hết hàng",
+      "discontinued": "Ngừng kinh doanh"
+    },
+    "mainCategory": {
+      "cake": "Bánh ngọt",
+      "drink": "Nước giải khát"
+    },
+    "unitTypes": {
+      "piece": "Miếng",
+      "box": "Hộp",
+      "set": "Bộ",
+      "Gói": "Gói",
+      "Thùng": "Thùng",
+      "Lốc": "Lốc"
+    }
+  },
+  "product_modal": {
+    "unit_type": "Đơn vị tính",
+    "quantity": "Số lượng",
+    "select_unit_type": "Vui lòng chọn đơn vị tính",
+    "please_select_unit_type": "Vui lòng chọn đơn vị tính trước khi thêm vào giỏ hàng",
+    "added_to_cart": "Đã thêm vào giỏ hàng",
+    "added_to_cart_description": "Đã thêm {{quantity}} {{name}} vào giỏ hàng",
+    "add_to_cart_button": "Thêm vào giỏ hàng",
+    "default_description": "Sản phẩm chất lượng cao từ Daliyuan"
   },
   "product_filter": {
     "title": "Khám Phá Bộ Sưu Tập",
@@ -27,16 +63,19 @@
       "best_sellers": "Bán Chạy Nhất",
       "must_try": "Phải Thử",
       "new_arrivals": "Sản Phẩm Mới",
-      "trending": "Đang Hot"
+      "trending": "Đang Hot",
+      "cake": "Bánh",
+      "drink": "Nước"
     },
     "filter_button": "Lọc",
     "search_placeholder": "Tìm kiếm sản phẩm..."
   },
   "product_grid": {
-    "view_more": "Xem Thêm"
+    "view_more": "Xem Thêm",
+    "no_products": "Không tìm thấy sản phẩm nào"
   },
   "footer": {
-    "tagline": "Dessert & More",
+    "tagline": "",
     "description": "Chúng tôi tạo ra những món bánh ngọt tinh tế với hương vị tuyệt vời và thiết kế hoàn hảo.",
     "links": {
       "title": "Liên Kết",
@@ -56,9 +95,9 @@
       "title": "Liên Hệ",
       "address": "123 Nguyễn Văn A, Quận 1, TP.HCM",
       "phone": "0123 456 789",
-      "email": "hello@the350f.com"
+      "email": "Daliyuan@gmail.com"
     },
-    "copyright": "© 2024 The350F. Tất cả quyền được bảo lưu."
+    "copyright": "© 2024 Daliyuan. Tất cả quyền được bảo lưu."
   },
   "product_detail": {
     "breadcrumb_home": "Trang chủ",
@@ -78,122 +117,280 @@
     "main_ingredients": "Thành phần chính:",
     "no_reviews": "Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!",
     "write_review": "Viết đánh giá",
-    "related_products": "Sản phẩm liên quan"
+    "related_products": "Sản phẩm liên quan",
+    "customer_reviews": "Đánh giá từ khách hàng",
+    "product_not_found": "Không tìm thấy sản phẩm",
+    "server_error": "Lỗi máy chủ",
+    "network_error": "Lỗi kết nối mạng. Vui lòng kiểm tra kết nối internet của bạn.",
+    "unknown_error": "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.",
+    "missing_id": "Thiếu thông tin sản phẩm",
+    "added_to_wishlist": "Đã thêm vào danh sách yêu thích",
+    "added_to_wishlist_description": "Sản phẩm đã được thêm vào danh sách yêu thích của bạn",
+    "review_feature": "Tính năng đánh giá",
+    "review_feature_coming_soon": "Tính năng đánh giá sẽ sớm được cập nhật"
+  },
+  "cart_page": {
+    "title": "Giỏ hàng của bạn",
+    "item_count": "{{count}} sản phẩm trong giỏ hàng",
+    "continue_shopping": "Tiếp tục mua sắm",
+    "item": "sản phẩm",
+    "items": "sản phẩm",
+    "empty": {
+      "title": "Giỏ hàng trống",
+      "subtitle": "Giỏ hàng của bạn hiện đang trống. Hãy thêm một số sản phẩm vào giỏ hàng.",
+      "continue_shopping": "Tiếp tục mua sắm"
+    },
+    "summary": {
+      "title": "Tóm tắt đơn hàng",
+      "subtotal": "Tạm tính",
+      "shipping": "Phí vận chuyển",
+      "total": "Tổng cộng",
+      "checkout_button": "Thanh toán"
+    }
+  },
+  "payment_methods_page": {
+    "title": "Phương thức thanh toán",
+    "subtitle": "Chọn phương thức thanh toán phù hợp cho đơn hàng của bạn.",
+    "cod": {
+      "title": "Thanh toán khi nhận hàng (COD)",
+      "line1": "Thanh toán trực tiếp khi nhận hàng.",
+      "line2": "Không mất phí giao dịch.",
+      "line3": "Áp dụng toàn quốc."
+    },
+    "bank_transfer": {
+      "title": "Chuyển khoản ngân hàng",
+      "line1": "Chuyển khoản vào tài khoản ngân hàng của chúng tôi.",
+      "line2": "Vui lòng ghi rõ mã đơn hàng khi chuyển khoản.",
+      "line3": "Đơn hàng sẽ được xử lý sau khi nhận được thanh toán.",
+      "description": "Vui lòng chuyển khoản vào tài khoản dưới đây. Nội dung chuyển khoản ghi rõ mã đơn hàng.",
+      "bank": "Ngân hàng:",
+      "account_holder": "Chủ tài khoản:",
+      "account_number": "Số tài khoản:"
+    }
   },
   "about_page": {
     "badge": "Về chúng tôi",
-    "hero_title": "Câu chuyện The350F",
-    "hero_subtitle": "Từ một niềm đam mê nhỏ bé đến thương hiệu bánh ngọt được yêu thích, The350F đã không ngừng sáng tạo và mang đến những trải nghiệm tuyệt vời cho khách hàng suốt gần 10 năm qua.",
-    "story_title": "Khởi nguồn từ đam mê",
-    "story_p1": "The350F ra đời từ niềm đam mê tạo ra những món bánh ngọt tuyệt vời của đội ngũ bếp trưởng giàu kinh nghiệm. Chúng tôi tin rằng mỗi chiếc bánh không chỉ là món ăn mà còn là nghệ thuật, là cách để chia sẻ niềm vui và tình yêu.",
-    "story_p2": "Tên gọi 'The350F' lấy cảm hứng từ nhiệt độ lý tưởng để nướng bánh (350°F = 175°C), thể hiện sự chính xác và chuyên nghiệp trong từng công đoạn sản xuất.",
-    "story_p3": "Từ những ngày đầu khiêm tốn với một lò nướng nhỏ, chúng tôi đã không ngừng học hỏi, sáng tạo và phát triển để mang đến những sản phẩm chất lượng nhất cho khách hàng.",
-    "experience": "Năm kinh nghiệm",
+    "hero_title": "Câu chuyện Daliyuan",
+    "hero_subtitle": "Chúng tôi mang đến những chiếc bánh ngọt tinh tế, sáng tạo và đầy cảm hứng.",
+    "story_title": "Hành trình phát triển",
+    "story_p1": "Daliyuan được thành lập với niềm đam mê bánh ngọt và mong muốn lan tỏa hạnh phúc qua từng chiếc bánh.",
+    "story_p2": "Chúng tôi luôn nỗ lực sáng tạo, đổi mới để mang đến trải nghiệm tuyệt vời nhất cho khách hàng.",
     "values_title": "Giá trị cốt lõi",
-    "values_subtitle": "Những giá trị định hướng mọi hoạt động của chúng tôi",
+    "values_subtitle": "Những giá trị mà Daliyuan luôn gìn giữ",
     "values": {
       "passion": {
         "title": "Đam mê",
-        "description": "Chúng tôi đặt tình yêu và đam mê vào từng món bánh"
+        "description": "Chúng tôi làm bánh bằng cả trái tim và sự tận tâm."
       },
       "quality": {
         "title": "Chất lượng",
-        "description": "Nguyên liệu cao cấp, quy trình nghiêm ngặt"
+        "description": "Nguyên liệu chọn lọc, quy trình nghiêm ngặt."
       },
       "customer": {
         "title": "Khách hàng",
-        "description": "Sự hài lòng của khách hàng là ưu tiên hàng đầu"
+        "description": "Khách hàng là trung tâm của mọi hoạt động."
       },
       "tradition": {
         "title": "Truyền thống",
-        "description": "Kế thừa và phát triển công thức bánh truyền thống"
+        "description": "Gìn giữ tinh hoa và phát triển sáng tạo."
       }
-    }
+    },
+    "story_p3": "Chúng tôi tự hào với hơn 10 năm kinh nghiệm trong ngành bánh ngọt.",
+    "experience": "năm kinh nghiệm"
   },
   "contact_page": {
     "badge": "Liên hệ",
-    "hero_title": "Kết nối với chúng tôi",
-    "hero_subtitle": "Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy liên hệ với The350F để được tư vấn và đặt hàng.",
+    "hero_title": "Liên hệ với Daliyuan",
+    "hero_subtitle": "Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy liên hệ với chúng tôi qua các kênh dưới đây hoặc gửi thông tin qua form bên cạnh!",
     "info": {
       "address": {
         "title": "Địa chỉ",
         "details": [
           "123 Nguyễn Văn A, Quận 1, TP.HCM",
-          "456 Lê Văn B, Quận 3, TP.HCM"
+          "456 Lê Lợi, Quận 3, TP.HCM"
         ]
       },
       "phone": {
         "title": "Điện thoại",
         "details": [
-          "Hotline: 0123 456 789",
-          "Đặt hàng: 0987 654 321"
+          "0123 456 789",
+          "0987 654 321"
         ]
       },
       "email": {
         "title": "Email",
         "details": [
-          "info@the350f.com",
-          "order@the350f.com"
+          "Daliyuan@gmail.com"
         ]
       },
       "hours": {
-        "title": "Giờ mở cửa",
+        "title": "Giờ làm việc",
         "details": [
-          "Thứ 2 - Chủ nhật: 8:00 - 22:00",
-          "Nghỉ lễ: 9:00 - 21:00"
+          "Thứ 2 - Chủ nhật: 8:00 - 22:00"
         ]
       }
     },
     "form": {
-      "title": "Gửi tin nhắn cho chúng tôi",
-      "name_label": "Họ và tên *",
+      "title": "Gửi liên hệ",
+      "name_label": "Họ và tên",
       "name_placeholder": "Nhập họ và tên",
-      "phone_label": "Số điện thoại *",
+      "phone_label": "Số điện thoại",
       "phone_placeholder": "Nhập số điện thoại",
-      "email_label": "Email *",
-      "email_placeholder": "Nhập địa chỉ email",
+      "email_label": "Email",
+      "email_placeholder": "Nhập email",
       "subject_label": "Chủ đề",
-      "subject_placeholder": "Nhập chủ đề",
-      "message_label": "Nội dung *",
-      "message_placeholder": "Nhập nội dung tin nhắn...",
-      "submit_button": "Gửi tin nhắn"
+      "subject_placeholder": "Nhập chủ đề liên hệ",
+      "message_label": "Nội dung",
+      "message_placeholder": "Nhập nội dung liên hệ",
+      "submit_button": "Gửi liên hệ"
     },
     "map": {
-      "title": "Bản đồ cửa hàng",
-      "subtitle": "Nhấn để xem chi tiết vị trí"
+      "title": "Xem bản đồ vị trí cửa hàng Daliyuan",
+      "subtitle": "Chúng tôi có nhiều chi nhánh thuận tiện cho bạn."
     },
     "social": {
-      "title": "Theo dõi chúng tôi",
-      "subtitle": "Cập nhật những sản phẩm mới và ưu đãi đặc biệt",
+      "title": "Kết nối với chúng tôi",
+      "subtitle": "Theo dõi Daliyuan trên mạng xã hội để cập nhật tin tức mới nhất!",
       "facebook": "Facebook",
       "instagram": "Instagram"
+    },
+    "success": "Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.",
+    "error": "Đã xảy ra lỗi. Vui lòng thử lại sau."
+  },
+  "cart_modal": {
+    "title": "Giỏ hàng của bạn",
+    "total": "Tổng cộng",
+    "checkout_button": "Thanh toán",
+    "view_cart_button": "Xem giỏ hàng"
+  },
+  "login_modal": {
+    "title": "Đăng nhập",
+    "account_label": "Tài khoản",
+    "account_placeholder": "Nhập email hoặc số điện thoại",
+    "password_label": "Mật khẩu",
+    "password_placeholder": "Nhập mật khẩu",
+    "remember_me": "Ghi nhớ đăng nhập",
+    "forgot_password": "Quên mật khẩu?",
+    "login_button": "Đăng nhập",
+    "logging_in": "Đang đăng nhập...",
+    "processing": "Đang xử lý...",
+    "or": "Hoặc",
+    "login_with_google": "Đăng nhập với Google",
+    "no_account": "Chưa có tài khoản?",
+    "register_now": "Đăng ký ngay",
+    "error": "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.",
+    "success": "Đăng nhập thành công!"
+  },
+  "my_account_page": {
+    "title": "Tài khoản của tôi",
+    "subtitle_logged_in": "Quản lý thông tin cá nhân, đơn hàng và cài đặt tài khoản.",
+    "sidebar": {
+      "profile": "Thông tin cá nhân",
+      "orders": "Đơn hàng",
+      "address": "Địa chỉ",
+      "settings": "Cài đặt",
+      "logout": "Đăng xuất"
+    },
+    "profile_tab": {
+      "title": "Thông tin cá nhân",
+      "edit_button": "Chỉnh sửa",
+      "full_name_label": "Họ và tên",
+      "full_name_placeholder": "Nhập họ và tên",
+      "phone_label": "Số điện thoại",
+      "phone_placeholder": "Nhập số điện thoại của bạn",
+      "email_label": "Email",
+      "address_label": "Địa chỉ",
+      "address_placeholder": "Nhập địa chỉ của bạn",
+      "save_button": "Lưu thay đổi",
+      "cancel_button": "Hủy",
+      "success": "Cập nhật thông tin thành công!",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại."
+    },
+    "orders_tab": {
+      "title": "Đơn hàng của bạn",
+      "statuses": {
+        "delivered": "Đã giao hàng",
+        "processing": "Đang xử lý",
+        "cancelled": "Đã hủy"
+      },
+      "view_detail": "Xem chi tiết"
+    },
+    "settings_tab": {
+      "title": "Cài đặt tài khoản",
+      "notifications_label": "Nhận thông báo về đơn hàng mới",
+      "delete_account_button": "Xóa tài khoản"
+    },
+    "toasts": {
+      "profile_update_success": "Cập nhật thông tin cá nhân thành công!",
+      "profile_update_error": "Cập nhật thông tin thất bại. Vui lòng thử lại.",
+      "address_update_success": "Cập nhật địa chỉ thành công!",
+      "address_update_error": "Cập nhật địa chỉ thất bại. Vui lòng thử lại.",
+      "order_cancel_success": "Hủy đơn hàng thành công!",
+      "order_cancel_error": "Hủy đơn hàng thất bại. Vui lòng thử lại."
+    },
+    "address_tab": {
+      "title": "Quản lý địa chỉ",
+      "add_button": "Thêm địa chỉ mới",
+      "no_addresses": "Bạn chưa lưu địa chỉ nào.",
+      "default_badge": "Mặc định",
+      "set_default_button": "Đặt làm mặc định",
+      "address_badge": "Địa chỉ",
+      "phone_label": "Điện thoại",
+      "edit_button": "Chỉnh sửa",
+      "delete_button": "Xóa"
+    },
+    "address_modal": {
+      "edit_title": "Cập nhật địa chỉ",
+      "add_title": "Thêm địa chỉ mới",
+      "edit_desc": "Cập nhật thông tin địa chỉ nhận hàng của bạn.",
+      "add_desc": "Vui lòng điền đầy đủ thông tin để thêm địa chỉ mới.",
+      "full_name_label": "Họ và tên",
+      "full_name_placeholder": "Ví dụ: Nguyễn Văn A",
+      "phone_label": "Số điện thoại",
+      "phone_placeholder": "Ví dụ: 0909123456",
+      "address_label": "Địa chỉ chi tiết",
+      "address_placeholder": "Số nhà, tên đường...",
+      "city_label": "Tỉnh/Thành phố",
+      "city_placeholder": "Chọn tỉnh/thành phố",
+      "district_label": "Quận/Huyện",
+      "district_placeholder": "Chọn quận/huyện",
+      "ward_label": "Phường/Xã",
+      "ward_placeholder": "Chọn phường/xã",
+      "update_button": "Cập nhật",
+      "add_button": "Thêm mới",
+      "cancel_button": "Hủy"
+    },
+    "delete_account_modal": {
+      "title": "Xác nhận xóa tài khoản",
+      "description": "Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn tác.",
+      "confirm_button": "Xóa tài khoản",
+      "cancel_button": "Hủy"
     }
   },
-  "cart_page": {
-    "empty": {
-      "title": "Giỏ hàng trống",
-      "subtitle": "Bạn chưa có sản phẩm nào trong giỏ hàng. Hãy khám phá các sản phẩm tuyệt vời của chúng tôi!",
-      "continue_shopping": "Tiếp tục mua sắm"
+  "order_detail": {
+    "title": "Chi tiết đơn hàng",
+    "order_number": "Mã đơn hàng:",
+    "order_date": "Ngày đặt:",
+    "status": {
+      "label": "Trạng thái:",
+      "processing": "Đang xử lý",
+      "delivered": "Đã giao hàng",
+      "cancelled": "Đã hủy"
     },
-    "title": "Giỏ hàng",
-    "item_count": "sản phẩm trong giỏ hàng",
-    "continue_shopping": "Tiếp tục mua sắm",
-    "summary": {
-      "title": "Tóm tắt đơn hàng",
-      "subtotal": "Tạm tính:",
-      "shipping": "Phí vận chuyển:",
-      "discount": "Giảm giá:",
-      "total": "Tổng cộng:",
-      "checkout_button": "Tiến hành thanh toán"
+    "payment_method": {
+      "label": "Phương thức thanh toán:",
+      "credit_card": "Thẻ tín dụng",
+      "cod": "Thanh toán khi nhận hàng",
+      "bank_transfer": "Chuyển khoản ngân hàng"
     },
-    "invalid_promo": "Mã giảm giá không hợp lệ!"
+    "products": "Sản phẩm"
   },
   "checkout_page": {
-    "title": "Thanh Toán",
+    "title": "Thanh toán",
     "subtitle": "Hoàn tất đơn hàng của bạn",
     "loading": "Đang tải dữ liệu...",
     "shipping_info": {
-      "title": "Thông Tin Giao Hàng",
+      "title": "Thông tin giao hàng",
       "full_name_label": "Họ và tên *",
       "full_name_placeholder": "Nhập họ và tên",
       "email_label": "Email *",
@@ -204,72 +401,62 @@
       "city_placeholder": "Chọn tỉnh/thành phố",
       "district_label": "Quận/Huyện *",
       "district_placeholder": "Chọn quận/huyện",
-      "ward_label": "Xã/Phường *",
-      "ward_placeholder": "Chọn xã/phường",
+      "ward_label": "Phường/Xã *",
+      "ward_placeholder": "Chọn phường/xã",
       "address_label": "Địa chỉ *",
       "address_placeholder": "Số nhà, tên đường",
       "delivery_date_label": "Ngày giao hàng *",
-      "delivery_time_label": "Giờ giao sớm nhất *",
-      "delivery_time_placeholder": "Chọn giờ"
+      "delivery_time_label": "Thời gian giao hàng sớm nhất *",
+      "delivery_time_placeholder": "Chọn thời gian"
     },
     "other_shipping_info": {
-      "title": "Thông tin giao hàng",
-      "other_address_checkbox": "Giao hàng tới địa chỉ khác?",
-      "full_name_label": "Họ tên người nhận *",
-      "full_name_placeholder": "Nhập họ tên người nhận",
-      "phone_label": "Số điện thoại của người nhận (tuỳ chọn)",
-      "phone_placeholder": "Số điện thoại của người nhận",
+      "title": "Thông tin giao hàng khác",
+      "other_address_checkbox": "Giao hàng đến địa chỉ khác?",
+      "full_name_label": "Tên người nhận *",
+      "full_name_placeholder": "Nhập tên người nhận",
+      "phone_label": "Số điện thoại người nhận (tùy chọn)",
+      "phone_placeholder": "Số điện thoại người nhận",
       "city_label": "Tỉnh/Thành phố *",
       "district_label": "Quận/Huyện *",
-      "ward_label": "Xã/Phường *",
+      "ward_label": "Phường/Xã *",
       "address_label": "Địa chỉ *",
-      "order_note_label": "Ghi chú đơn hàng (tuỳ chọn)",
-      "order_note_placeholder": "Ghi chú về đơn hàng của bạn, ví dụ: lưu ý đặc biệt khi giao hàng."
+      "order_note_label": "Ghi chú đơn hàng (tùy chọn)",
+      "order_note_placeholder": "Ghi chú về đơn hàng, ví dụ: hướng dẫn giao hàng."
     },
     "order_summary": {
       "title": "Đơn hàng của bạn",
       "quantity": "Số lượng:",
       "subtotal": "Tạm tính:",
       "shipping": "Phí vận chuyển:",
-      "tax": "Thuế VAT (10%):",
+      "tax": "Thuế GTGT (10%):",
       "total": "Tổng cộng:",
-      "submit_button": "Đặt Hàng - {{total}}"
+      "submit_button": "Đặt hàng - {{total}}"
     },
     "notice": {
-      "title": "THÔNG BÁO CẦN CHÚ Ý",
-      "line1": "Chúng tôi sẽ gọi lại cho bạn để xác nhận đơn hàng và báo phí ship chính xác.",
-      "line2": "Bạn có thể cung cấp số tài khoản cho nhân viên tư vấn để được đổi hình thức thanh toán chuyển khoản trước.",
+      "title": "Lưu ý quan trọng",
+      "line1": "Chúng tôi sẽ gọi điện xác nhận đơn hàng và thông báo phí vận chuyển chính xác.",
+      "line2": "Bạn có thể cung cấp số tài khoản ngân hàng cho nhân viên để chuyển sang hình thức chuyển khoản trước.",
       "hotline": "Hotline:"
     }
   },
-  "checkout_toast": {
-    "missing_info_title": "Thông tin chưa đầy đủ",
-    "missing_info_desc": "Vui lòng điền đầy đủ thông tin.",
-    "processing_title": "Đang xử lý đơn hàng...",
-    "processing_desc": "Chúng tôi đang xử lý thanh toán của bạn",
-    "success_title": "Đặt hàng thành công!",
-    "success_desc": "Mã đơn hàng: {{orderId}}",
-    "error_title": "Lỗi",
-    "error_desc": "Có lỗi xảy ra khi xử lý đơn hàng"
-  },
   "payment_success_page": {
     "title": "Đặt hàng thành công!",
-    "subtitle": "Cảm ơn bạn đã mua hàng tại The350F. Đơn hàng của bạn đã được xác nhận và sẽ được xử lý trong thời gian sớm nhất.",
+    "subtitle": "Cảm ơn bạn đã mua hàng tại Daliyuan. Đơn hàng của bạn đã được xác nhận, chúng tôi sẽ xử lý sớm nhất.",
     "order_details": {
       "order_number": "Mã đơn hàng:",
-      "order_date": "Ngày đặt hàng:",
+      "order_date": "Ngày đặt:",
       "estimated_delivery": "Dự kiến giao hàng:",
       "payment_method": "Phương thức thanh toán:",
       "payment_method_value": "Thẻ tín dụng"
     },
     "next_steps": {
       "preparing": {
-        "title": "Chuẩn bị hàng",
+        "title": "Đang chuẩn bị",
         "description": "Đơn hàng đang được chuẩn bị"
       },
       "shipping": {
-        "title": "Vận chuyển",
-        "description": "Giao hàng trong 2-3 ngày"
+        "title": "Đang giao hàng",
+        "description": "Giao trong 2-3 ngày"
       },
       "invoice": {
         "title": "Hóa đơn",
@@ -282,192 +469,19 @@
     },
     "support": {
       "title": "Cần hỗ trợ?",
-      "description": "Nếu bạn có bất kỳ câu hỏi nào về đơn hàng, vui lòng liên hệ với chúng tôi.",
+      "description": "Nếu bạn có bất kỳ thắc mắc nào về đơn hàng, hãy liên hệ với chúng tôi.",
       "hotline": "📞 Hotline: 1900-1234",
-      "email": "📧 Email: support@the350f.com"
+      "email": "📧 Email: support@Daliyuan.com"
     }
   },
-  "my_account_page": {
-    "title": "Tài khoản của tôi",
-    "subtitle_logged_in": "Quản lý thông tin cá nhân, đơn hàng và nhiều hơn nữa.",
-    "subtitle_logged_out": "Đăng nhập để quản lý tài khoản của bạn.",
-    "sidebar": {
-      "profile": "Thông tin cá nhân",
-      "orders": "Đơn hàng",
-      "address": "Địa chỉ giao hàng",
-      "settings": "Cài đặt",
-      "logout": "Đăng xuất"
-    },
-    "profile_tab": {
-      "title": "Thông tin cá nhân",
-      "edit_button": "Chỉnh sửa",
-      "save_button": "Lưu",
-      "cancel_button": "Hủy",
-      "upload_avatar_title": "Tải lên ảnh mới",
-      "full_name_label": "Họ và tên",
-      "phone_label": "Số điện thoại",
-      "change_password_button": "Đổi mật khẩu",
-      "reset_google_avatar_title": "Khôi phục ảnh Google",
-      "name_not_updated": "Chưa cập nhật tên",
-      "google_login": "Đăng nhập bằng Google",
-      "upload_new_avatar_prompt": "Nhấp vào ảnh để tải lên ảnh mới",
-      "full_name_placeholder": "Nhập họ và tên của bạn",
-      "email_label": "Email",
-      "phone_placeholder": "Nhập số điện thoại của bạn",
-      "address_label": "Địa chỉ",
-      "address_placeholder": "Nhập địa chỉ của bạn"
-    },
-    "orders_tab": {
-      "title": "Lịch sử mua hàng",
-      "order_id": "Đơn hàng #{{id}}",
-      "order_date": "Ngày đặt",
-      "products": "Sản phẩm",
-      "view_details_button": "Xem chi tiết",
-      "no_orders": "Chưa có đơn hàng nào.",
-      "statuses": {
-        "delivered": "Đã giao",
-        "processing": "Đang xử lý",
-        "cancelled": "Đã hủy",
-        "pending": "Chờ xử lý"
-      }
-    },
-    "address_tab": {
-      "title": "Quản lý địa chỉ",
-      "add_button": "Thêm địa chỉ mới",
-      "no_addresses": "Bạn chưa có địa chỉ nào được lưu.",
-      "default_badge": "Mặc định",
-      "set_default_button": "Đặt làm mặc định",
-      "address_badge": "Địa chỉ",
-      "phone_label": "Điện thoại",
-      "edit_button": "Sửa",
-      "delete_button": "Xóa"
-    },
-    "settings_tab": {
-      "title": "Cài đặt tài khoản",
-      "notifications_title": "Thông báo và khuyến mãi",
-      "notifications_label": "Nhận email về các chương trình khuyến mãi",
-      "security_title": "Bảo mật",
-      "delete_account_button": "Xóa tài khoản",
-      "delete_warning": "Nguy hiểm! Hành động này không thể hoàn tác.",
-      "fill_all_fields_alert": "Vui lòng nhập đủ thông tin",
-      "new_password_mismatch_alert": "Mật khẩu mới không khớp",
-      "password_change_success_alert": "Đổi mật khẩu thành công (giả lập)",
-      "current_password_placeholder": "Mật khẩu hiện tại",
-      "new_password_placeholder": "Mật khẩu mới",
-      "confirm_new_password_placeholder": "Nhập lại mật khẩu mới",
-      "confirm_button": "Xác nhận",
-      "delete_account_confirm": "Bạn có chắc chắn muốn xóa tài khoản? (giả lập)",
-      "account_deleted_alert": "Tài khoản đã bị xóa (giả lập)"
-    },
-    "address_modal": {
-      "edit_title": "Cập nhật địa chỉ",
-      "add_title": "Thêm địa chỉ mới",
-      "edit_desc": "Cập nhật thông tin địa chỉ giao hàng của bạn.",
-      "add_desc": "Vui lòng điền đầy đủ thông tin để thêm địa chỉ mới.",
-      "full_name_label": "Họ và tên",
-      "full_name_placeholder": "Nguyễn Văn A",
-      "phone_label": "Số điện thoại",
-      "phone_placeholder": "0123456789",
-      "address_label": "Địa chỉ",
-      "address_placeholder": "Số nhà, tên đường",
-      "city_label": "Tỉnh/Thành phố",
-      "city_placeholder": "Chọn Tỉnh/Thành phố",
-      "district_label": "Quận/Huyện",
-      "district_placeholder": "Chọn quận/huyện",
-      "ward_label": "Phường/Xã",
-      "ward_placeholder": "Chọn phường/xã",
-      "update_button": "Cập nhật",
-      "add_button": "Thêm mới",
-      "cancel_button": "Hủy"
-    },
-    "delete_account_modal": {
-      "title": "Xác nhận xóa tài khoản",
-      "description": "Bạn có chắc chắn muốn xóa tài khoản không? Hành động này không thể hoàn tác.",
-      "confirm_button": "Xóa tài khoản",
-      "cancel_button": "Hủy"
-    },
-    "toasts": {
-      "add_address_success": "Đã thêm địa chỉ mới!",
-      "update_address_success": "Đã cập nhật địa chỉ!",
-      "delete_address_success": "Đã xóa địa chỉ.",
-      "set_default_success": "Đã đặt địa chỉ mặc định!",
-      "profile_update_success": "Cập nhật thông tin thành công!"
-    }
-  },
-  "cart_modal": {
-    "title": "Giỏ Hàng",
-    "empty_cart": "Giỏ hàng trống",
-    "view_cart": "Xem giỏ hàng",
-    "checkout": "Thanh toán",
-    "item_added": "Đã thêm sản phẩm vào giỏ hàng!",
-    "failed_to_add": "Không thể thêm sản phẩm vào giỏ hàng.",
-    "total": "Tổng cộng",
-    "checkout_button": "Thanh toán",
-    "view_cart_button": "Xem giỏ hàng"
-  },
-  "product_modal": {
-    "select_options": "Vui lòng chọn các tùy chọn sản phẩm",
-    "adding_to_cart": "Đang thêm vào giỏ hàng...",
-    "add_to_cart_success": "Thêm vào giỏ hàng thành công!",
-    "add_to_cart_failed": "Thêm vào giỏ hàng thất bại!",
-    "default_description": "Bánh cao cấp làm từ nguyên liệu tươi ngon, hương vị tuyệt vời và độc đáo.",
-    "add_to_cart_button": "Thêm vào giỏ hàng"
-  },
-  "payment_methods_page": {
-    "title": "Phương thức thanh toán",
-    "subtitle": "Chúng tôi hỗ trợ nhiều phương thức thanh toán linh hoạt và an toàn.",
-    "cod": {
-      "title": "Thanh toán khi nhận hàng (COD)",
-      "line1": "Khách hàng có thể đặt hàng qua website the350f.com và nhân viên của chúng tôi sẽ gọi điện xác nhận về thông tin đơn hàng và tư vấn thêm thông tin.",
-      "line2": "Quý Khách thanh toán đầy đủ toàn bộ giá trị đơn hàng cho nhân viên giao nhận ngay sau khi kiểm tra tình trạng đơn hàng (kiểm tra đúng sản phẩm đã đặt còn nguyên vẹn, đầy đủ phụ kiện đi kèm như dao nến và tag chúc mừng, … ).",
-      "line3": "Nếu Quý Khách cần thay đổi hình thức thanh toán khi shipper đã giao hàng đến, hãy gọi Hotline 0908.78.8787 để thông báo và được hỗ trợ nhanh chóng."
-    },
-    "bank_transfer": {
-      "title": "Chuyển khoản ngân hàng",
-      "description": "Quý khách vui lòng chuyển khoản vào tài khoản dưới đây. Nội dung chuyển khoản xin ghi rõ mã đơn hàng để chúng tôi có thể xác nhận nhanh chóng.",
-      "bank": "Ngân hàng:",
-      "account_holder": "Chủ tài khoản:",
-      "account_number": "Số tài khoản:"
-    },
-    "vnpay": {
-      "title": "Thanh toán trực tuyến qua cổng VNPAY",
-      "description": "Chúng tôi chấp nhận thanh toán qua thẻ ATM nội địa, Visa, MasterCard, JCB và ví VNPAY. Giao dịch của bạn sẽ được xử lý an toàn và bảo mật tuyệt đối."
-    }
-  },
-  "login_modal": {
-    "title": "Đăng Nhập",
-    "account_label": "Tài khoản",
-    "account_placeholder": "Tên tài khoản hoặc địa chỉ email",
-    "password_label": "Mật khẩu",
-    "password_placeholder": "Nhập mật khẩu",
-    "remember_me": "Ghi nhớ đăng nhập",
-    "forgot_password": "Quên mật khẩu?",
-    "logging_in": "Đang đăng nhập...",
-    "login_button": "Đăng Nhập",
-    "or": "hoặc",
-    "processing": "Đang xử lý...",
-    "login_with_google": "Đăng nhập với Google",
-    "no_account": "Chưa có tài khoản?",
-    "register_now": "Đăng ký ngay"
-  },
-  "order_detail": {
-    "title": "Chi tiết đơn hàng",
-    "order_number": "Mã đơn hàng:",
-    "order_date": "Ngày đặt hàng:",
-    "status": {
-      "label": "Trạng thái:",
-      "processing": "Đang xử lý",
-      "delivered": "Đã giao",
-      "cancelled": "Đã hủy"
-    },
-    "payment_method": {
-      "label": "Phương thức thanh toán:",
-      "credit_card": "Thẻ tín dụng",
-      "cod": "Thanh toán khi nhận hàng",
-      "bank_transfer": "Chuyển khoản ngân hàng"
-    },
-    "products": "Sản phẩm",
-    "total": "Tổng cộng",
-    "back_to_orders": "Quay lại danh sách đơn hàng"
+  "checkout_toast": {
+    "missing_info_title": "Thiếu thông tin",
+    "missing_info_desc": "Vui lòng điền đầy đủ thông tin bắt buộc.",
+    "processing_title": "Đang xử lý đơn hàng...",
+    "processing_desc": "Chúng tôi đang xử lý thanh toán của bạn",
+    "success_title": "Đặt hàng thành công!",
+    "success_desc": "Mã đơn hàng: {{orderId}}",
+    "error_title": "Lỗi",
+    "error_desc": "Đã xảy ra lỗi khi xử lý đơn hàng"
   }
 }

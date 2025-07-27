@@ -232,6 +232,7 @@ const ProfileTab: React.FC<{
           accept="image/*"
           onChange={handleAvatarUpload}
           className="hidden"
+          onClick={(e) => e.stopPropagation()} // Prevent double click issue
         />
 
         <div className="flex items-center space-x-6">

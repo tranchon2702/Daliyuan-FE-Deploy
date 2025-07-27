@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* The350F Dessert Shop Design System
+/* Daliyuan Dessert Shop Design System
 All colors MUST be HSL.
 */
 
@@ -36,7 +36,7 @@ All colors MUST be HSL.
     --input: 37 20% 85%;
     --ring: 192 45% 25%;
 
-    /* Custom design tokens for The350F */
+    /* Custom design tokens for Daliyuan */
     --dessert-primary: 192 45% 25%;
     --dessert-secondary: 37 35% 92%;
     --dessert-accent: 0 65% 55%;

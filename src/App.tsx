@@ -19,6 +19,9 @@ import AdminDashboardPage from "./pages/Admin/Views/AdminDashboardPage";
 import AdminNewsPage from "./pages/Admin/Views/AdminNewsPage";
 import AdminSystemPage from "./pages/Admin/Views/AdminSystemPage";
 import AdminOrdersPage from "./pages/Admin/Views/AdminOrdersPage";
+import AdminProtectedRoute from './components/AdminProtectedRoute';
+import AdminLogin from "./pages/Admin/Views/AdminLogin";
+import Register from "./pages/Register";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +41,16 @@ const App = () => (
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/my-account" element={<MyAccount />} />
           <Route path="/hinh-thuc-thanh-toan" element={<PaymentMethods />} />
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin/*"
+            element={
+              <AdminProtectedRoute>
+                <AdminLayout />
+              </AdminProtectedRoute>
+            }
+          >
             <Route index element={<AdminDashboardPage />} />
             <Route path="products" element={<AdminProductsPage />} />
             <Route path="news" element={<AdminNewsPage />} />

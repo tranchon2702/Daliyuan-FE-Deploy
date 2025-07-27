@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const ProductFilter = () => {
+interface ProductFilterProps {
+  activeFilter: string;
+  onFilterChange: (filter: string) => void;
+}
+
+const ProductFilter = ({ activeFilter, onFilterChange }: ProductFilterProps) => {
   const { t } = useTranslation();
-  const [activeFilter, setActiveFilter] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
   const filters = [
     { name: "All", label: t('product_filter.filters.all') },
+    { name: "cake", label: t('product_filter.filters.cake') },
+    { name: "drink", label: t('product_filter.filters.drink') },
     { name: "best-sellers", label: t('product_filter.filters.best_sellers') },
     { name: "must-try", label: t('product_filter.filters.must_try') },
     { name: "new-arrivals", label: t('product_filter.filters.new_arrivals') },
@@ -40,11 +46,11 @@ const ProductFilter = () => {
             <Button
               key={filter.name}
               variant={activeFilter === filter.name ? "default" : "ghost"}
-              onClick={() => setActiveFilter(filter.name)}
+              onClick={() => onFilterChange(filter.name)}
               className={`px-8 py-3 rounded-full transition-all duration-300 font-medium ${
                 activeFilter === filter.name
                   ? "bg-accent-gradient text-white shadow-hover scale-105"
-                  : "hover:bg-dessert-secondary/50 hover:text-red-500 hover:scale-105 text-dessert-primary"
+                  : "hover:bg-gray-100 hover:text-dessert-primary hover:scale-105 text-dessert-primary"
               }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -54,25 +60,23 @@ const ProductFilter = () => {
         </div>
 
         {/* Search and Filter Row */}
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 max-w-2xl mx-auto animate-scale-in">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2 px-6 py-3 rounded-full border-dessert-primary/20 hover:border-dessert-primary/40 hover:bg-dessert-secondary/30 transition-all duration-300"
-            >
-              <Filter className="h-4 w-4 text-dessert-primary" />
-              <span className="text-dessert-primary font-medium">{t('product_filter.filter_button')}</span>
-            </Button>
-            <div className="relative group">
-              <Input
-                type="text"
-                placeholder={t('product_filter.search_placeholder')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 pr-4 py-3 w-80 rounded-full border-dessert-primary/20 focus:border-dessert-primary focus:ring-dessert-primary/20 bg-white/50 backdrop-blur-sm"
-              />
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-dessert-primary/60 group-focus-within:text-dessert-primary transition-colors" />
-            </div>
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2 px-6 py-3 rounded-full border-dessert-primary/20 hover:border-dessert-primary hover:bg-gray-100 transition-all duration-300"
+          >
+            <Filter className="h-4 w-4 text-dessert-primary" />
+            <span className="text-dessert-primary font-medium">{t('product_filter.filter_button')}</span>
+          </Button>
+          <div className="relative group">
+            <Input
+              type="text"
+              placeholder={t('product_filter.search_placeholder')}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-12 pr-4 py-3 w-80 rounded-full border-dessert-primary/20 focus:border-dessert-primary focus:ring-dessert-primary/20 bg-white/50 backdrop-blur-sm"
+            />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-dessert-primary/60 group-focus-within:text-dessert-primary transition-colors" />
           </div>
         </div>
       </div>

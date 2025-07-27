@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// API URL
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // Google OAuth Configuration
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
@@ -22,6 +26,21 @@ export interface GoogleUser {
   picture: string;
   given_name?: string;
   family_name?: string;
+}
+
+export interface UserData {
+  _id: string;
+  fullName: string;
+  email: string;
+  phone?: string;
+  address?: {
+    province?: string;
+    district?: string;
+    ward?: string;
+    street?: string;
+  };
+  isAdmin: boolean;
+  token: string;
 }
 
 export const useLoginModal = (onClose?: () => void) => {
@@ -50,10 +69,6 @@ export const useLoginModal = (onClose?: () => void) => {
     setError(null);
     setIsLoading(true);
 
-    // Log khi ấn nút đăng nhập
-    console.log("Form data đầy đủ:", formData);
-    console.log("==================");
-
     try {
       // Validate form data
       if (!formData.email.trim()) {
@@ -63,27 +78,25 @@ export const useLoginModal = (onClose?: () => void) => {
         throw new Error("Vui lòng nhập mật khẩu");
       }
 
-      // TODO: Call API đăng nhập ở đây
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
-
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Call API đăng nhập
+      const response = await axios.post(`${API_URL}/users/login`, formData);
+      const userData: UserData = response.data;
       
-      console.log("✅ Đăng nhập thành công - sẵn sàng call API");
-      
-      // Store login state with minimal user data
+      // Store user data and token
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userData", JSON.stringify({
-        email: formData.email,
-        fullName: "",
-        phone: "",
-        address: ""
+        _id: userData._id,
+        fullName: userData.fullName,
+        email: userData.email,
+        phone: userData.phone || "",
+        address: userData.address || {},
+        isAdmin: userData.isAdmin
       }));
-      // (Không lưu loginTimestamp ở đây)
+      localStorage.setItem("token", userData.token);
+      localStorage.setItem("loginMethod", "email");
+      localStorage.setItem("loginTimestamp", Date.now().toString());
+      
+      console.log("✅ Đăng nhập thành công");
       
       // Close modal and redirect to my account page
       if (onClose) {
@@ -91,9 +104,10 @@ export const useLoginModal = (onClose?: () => void) => {
       }
       navigate("/my-account");
       
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Có lỗi xảy ra khi đăng nhập";
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || err.message || "Có lỗi xảy ra khi đăng nhập";
       setError(errorMessage);
+      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -151,28 +165,28 @@ export const useLoginModal = (onClose?: () => void) => {
             const userInfo = await getGoogleUserInfo(response.access_token);
             
             // Gọi API lưu user Google vào backend
+            const googleLoginData = await saveGoogleUserToBackend(userInfo);
             
-            // await saveGoogleUserToBackend(userInfo);
-
             // Store user data
             const userData = {
-              email: userInfo.email,
-              fullName: userInfo.name,
-              phone: "",
-              address: "",
-              avatar: userInfo.picture,
-              googleId: userInfo.id
+              _id: googleLoginData._id,
+              fullName: googleLoginData.fullName,
+              email: googleLoginData.email,
+              phone: googleLoginData.phone || "",
+              address: googleLoginData.address || {},
+              isAdmin: googleLoginData.isAdmin,
+              avatar: userInfo.picture
             };
 
             // Save to localStorage
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("userData", JSON.stringify(userData));
+            localStorage.setItem("token", googleLoginData.token);
             localStorage.setItem("loginMethod", "google");
             localStorage.setItem("googleAvatar", userInfo.picture);
-            // Save login timestamp
             localStorage.setItem("loginTimestamp", Date.now().toString());
 
-            console.log("✅ Đăng nhập Google thành công:", userData);
+            console.log("✅ Đăng nhập Google thành công");
 
             // Close modal and redirect
             if (onClose) {
@@ -180,9 +194,9 @@ export const useLoginModal = (onClose?: () => void) => {
             }
             navigate("/my-account");
 
-          } catch (error) {
+          } catch (error: any) {
             console.error("Error getting user info:", error);
-            setError("Không thể lấy thông tin người dùng từ Google");
+            setError(error.response?.data?.message || "Không thể lấy thông tin người dùng từ Google");
           } finally {
             setIsLoading(false);
           }
@@ -192,9 +206,9 @@ export const useLoginModal = (onClose?: () => void) => {
       // Trigger Google OAuth flow
       client.requestAccessToken();
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Google login error:", error);
-      setError("Có lỗi xảy ra khi đăng nhập với Google");
+      setError(error.message || "Có lỗi xảy ra khi đăng nhập với Google");
       setIsLoading(false);
     }
   };
@@ -212,26 +226,21 @@ export const useLoginModal = (onClose?: () => void) => {
   // Hàm call API lưu thông tin user Google
   const saveGoogleUserToBackend = async (userInfo: GoogleUser) => {
     try {
-      // Ví dụ endpoint, bạn thay đổi sau này nếu cần
-      const response = await fetch('/api/auth/google-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: userInfo.email,
-          fullName: userInfo.name,
-          avatar: userInfo.picture,
-          googleId: userInfo.id,
-        }),
+      const response = await axios.post(`${API_URL}/users/google-login`, {
+        email: userInfo.email,
+        fullName: userInfo.name,
+        avatar: userInfo.picture,
+        googleId: userInfo.id,
       });
-      if (!response.ok) {
+      
+      if (!response.data) {
         throw new Error('Không thể lưu thông tin user vào hệ thống');
       }
-      const data = await response.json();
-      console.log('Kết quả lưu user Google vào backend:', data);
-      return data;
+      
+      return response.data;
     } catch (error) {
       console.error('Lỗi khi lưu user Google vào backend:', error);
-      return null;
+      throw error;
     }
   };
 
@@ -244,7 +253,8 @@ export const useLoginModal = (onClose?: () => void) => {
   };
 
   const handleRegister = () => {
-    console.log("Register clicked");
+    navigate('/register');
+    if (onClose) onClose();
   };
 
   const resetForm = () => {
@@ -252,13 +262,11 @@ export const useLoginModal = (onClose?: () => void) => {
       email: "",
       password: "",
     });
-    setShowPassword(false);
     setError(null);
-    setIsLoading(false);
   };
 
   // Check if Google OAuth is configured
-  const isGoogleConfigured = !!GOOGLE_CLIENT_ID;
+  const isGoogleConfigured = Boolean(GOOGLE_CLIENT_ID);
 
   return {
     showPassword,

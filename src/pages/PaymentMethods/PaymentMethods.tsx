@@ -64,7 +64,7 @@ const PaymentMethods = () => {
                   <strong>{t('payment_methods_page.bank_transfer.bank')}</strong> Vietcombank
                 </li>
                 <li>
-                  <strong>{t('payment_methods_page.bank_transfer.account_holder')}</strong> CTY TNHH THE 350F
+                  <strong>{t('payment_methods_page.bank_transfer.account_holder')}</strong> CTY TNHH DALIYUAN
                 </li>
                 <li>
                   <strong>{t('payment_methods_page.bank_transfer.account_number')}</strong> 1234567890
@@ -73,17 +73,7 @@ const PaymentMethods = () => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-3">
-            <AccordionTrigger className="text-lg font-semibold">
-              <div className="flex items-center space-x-3">
-                <CreditCard className="h-6 w-6 text-red-600" />
-                <span>{t('payment_methods_page.vnpay.title')}</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-700 leading-relaxed">
-              {t('payment_methods_page.vnpay.description')}
-            </AccordionContent>
-          </AccordionItem>
+         
         </Accordion>
       </div>
       <Footer />

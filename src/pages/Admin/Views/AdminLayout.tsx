@@ -19,7 +19,7 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside
         className={cn(
-          "relative z-20 flex flex-col transition-all duration-300 ease-smooth shadow-elegant bg-white/90 dark:bg-dessert-dark/80 border-r border-dessert-secondary/60 dark:border-dessert-dark/40",
+          "fixed left-0 top-0 bottom-0 z-20 flex flex-col transition-all duration-300 ease-smooth shadow-elegant bg-white/90 dark:bg-dessert-dark/80 border-r border-dessert-secondary/60 dark:border-dessert-dark/40",
           sidebarCollapsed ? "w-20" : "w-72"
         )}
       >
@@ -67,43 +67,45 @@ const AdminLayout = () => {
             <ChevronRight className="h-4 w-4 text-white" />
           </Button>
         )}
-        {/* Sidebar Nav */}
-        <nav className="flex-1 overflow-auto py-4 px-2">
-          <ul className="flex flex-col gap-2">
-            <li>
-              <NavLink to="/admin" end className={navLinkClasses}>
-                <Home className="h-5 w-5" />
-                {!sidebarCollapsed && <span>Trang chủ</span>}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/admin/products" className={navLinkClasses}>
-                <Box className="h-5 w-5" />
-                {!sidebarCollapsed && <span>Quản lý sản phẩm</span>}
-              </NavLink>
-            </li>
-            {/* <li>
-              <NavLink to="/admin/news" className={navLinkClasses}>
-                <Newspaper className="h-5 w-5" />
-                {!sidebarCollapsed && <span>Tin tức</span>}
-              </NavLink>
-            </li> */}
-            <li>
-              <NavLink to="/admin/system" className={navLinkClasses}>
-                <Settings className="h-5 w-5" />
-                {!sidebarCollapsed && <span>Hệ thống</span>}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/admin/orders" className={navLinkClasses}>
-                <FileText className="h-5 w-5" />
-                {!sidebarCollapsed && <span>Đơn hàng</span>}
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
-        {/* Sidebar Footer */}
-        <div className="mt-auto p-4 space-y-2">
+        {/* Sidebar Nav - Phần có thể cuộn */}
+        <div className="flex-1 overflow-auto flex flex-col">
+          <nav className="flex-1 overflow-auto py-4 px-2">
+            <ul className="flex flex-col gap-2">
+              <li>
+                <NavLink to="/admin" end className={navLinkClasses}>
+                  <Home className="h-5 w-5" />
+                  {!sidebarCollapsed && <span>Trang chủ</span>}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/admin/products" className={navLinkClasses}>
+                  <Box className="h-5 w-5" />
+                  {!sidebarCollapsed && <span>Quản lý sản phẩm</span>}
+                </NavLink>
+              </li>
+              {/* <li>
+                <NavLink to="/admin/news" className={navLinkClasses}>
+                  <Newspaper className="h-5 w-5" />
+                  {!sidebarCollapsed && <span>Tin tức</span>}
+                </NavLink>
+              </li> */}
+              <li>
+                <NavLink to="/admin/system" className={navLinkClasses}>
+                  <Settings className="h-5 w-5" />
+                  {!sidebarCollapsed && <span>Hệ thống</span>}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/admin/orders" className={navLinkClasses}>
+                  <FileText className="h-5 w-5" />
+                  {!sidebarCollapsed && <span>Đơn hàng</span>}
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        {/* Sidebar Footer - Phần cố định ở dưới cùng */}
+        <div className="p-4 space-y-2 border-t border-dessert-secondary/60 dark:border-dessert-dark/40">
           <NavLink
             to="/"
             className={cn(
@@ -124,7 +126,7 @@ const AdminLayout = () => {
         </div>
       </aside>
       {/* Main content */}
-      <div className="flex flex-col flex-1 min-w-0">
+      <div className={cn("flex flex-col flex-1 min-w-0", sidebarCollapsed ? "ml-20" : "ml-72")}>
         {/* AdminHeader sẽ được thêm ở đây */}
         <div id="admin-header-placeholder" />
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 transition-all duration-300">

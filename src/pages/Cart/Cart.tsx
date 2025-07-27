@@ -10,48 +10,66 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Plus, Minus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
 import {
-  initialCartItems,
-  formatPrice,
-  calculateSubtotal,
-  calculateShipping,
-  calculateDiscount,
-  calculateTotal,
+  getCartFromLocalStorage,
   updateCartItemQuantity,
-  removeCartItem,
-  validatePromoCode,
-  isCartEmpty,
-  getCartItemCount,
-  saveCartToStorage,
-  loadCartFromStorage,
-  PAYMENT_METHODS,
-  FREE_SHIPPING_THRESHOLD
-} from "./Cart.script.js";
+  removeFromCart,
+  getCartTotal,
+  getCartItemsCount,
+  CartItem,
+  dispatchCartUpdatedEvent
+} from "@/services/cartService";
+
+// Constants
+const FREE_SHIPPING_THRESHOLD = 500000; // 500,000 VND
+const SHIPPING_FEE = 30000; // 30,000 VND
 
 const Cart = () => {
-  const { t } = useTranslation();
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const { t, i18n } = useTranslation();
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [promoCode, setPromoCode] = useState("");
   const [appliedPromoCode, setAppliedPromoCode] = useState("");
+  const [userId, setUserId] = useState<string | undefined>(undefined);
+
+  const getCurrentUserId = () => {
+    const user = localStorage.getItem("userData");
+    if (!user) return undefined;
+    try {
+      const parsed = JSON.parse(user);
+      return parsed._id || undefined;
+    } catch {
+      return undefined;
+    }
+  };
 
   // Load cart from localStorage on component mount
   useEffect(() => {
-    const savedCart = loadCartFromStorage();
-    setCartItems(savedCart);
+    const loadCart = () => {
+      const uid = getCurrentUserId();
+      setUserId(uid);
+      const savedCart = getCartFromLocalStorage(uid);
+      setCartItems(savedCart);
+    };
+    loadCart();
+    window.addEventListener('cartUpdated', loadCart);
+    window.addEventListener('storage', loadCart);
+    return () => {
+      window.removeEventListener('cartUpdated', loadCart);
+      window.removeEventListener('storage', loadCart);
+    };
   }, []);
 
-  // Save cart to localStorage whenever cartItems change
-  useEffect(() => {
-    saveCartToStorage(cartItems);
-  }, [cartItems]);
-
-  const handleUpdateQuantity = (id, newQuantity) => {
-    const updatedCart = updateCartItemQuantity(cartItems, id, newQuantity);
-    setCartItems(updatedCart);
+  const handleUpdateQuantity = (id: string, newQuantity: number) => {
+    if (newQuantity > 0) {
+      const updatedCart = updateCartItemQuantity(id, newQuantity);
+      setCartItems(updatedCart);
+      dispatchCartUpdatedEvent();
+    }
   };
 
-  const handleRemoveItem = (id) => {
-    const updatedCart = removeCartItem(cartItems, id);
+  const handleRemoveItem = (id: string) => {
+    const updatedCart = removeFromCart(id);
     setCartItems(updatedCart);
+    dispatchCartUpdatedEvent();
   };
 
   const handleApplyPromoCode = () => {
@@ -63,13 +81,65 @@ const Cart = () => {
     }
   };
 
+  // Validate promo code
+  const validatePromoCode = (code: string): boolean => {
+    const validCodes = ['save10', 'save20', 'freeship'];
+    return validCodes.includes(code.toLowerCase());
+  };
+
+  // Calculate discount based on promo code
+  const calculateDiscount = (code: string, subtotal: number): number => {
+    if (code.toLowerCase() === 'save10') {
+      return Math.round(subtotal * 0.1);
+    }
+    if (code.toLowerCase() === 'save20') {
+      return Math.round(subtotal * 0.2);
+    }
+    return 0;
+  };
+
+  // Calculate shipping fee
+  const calculateShipping = (subtotal: number): number => {
+    return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+  };
+
+  // Format price
+  const formatPrice = (price: number): string => {
+    return new Intl.NumberFormat('vi-VN').format(price) + 'VND';
+  };
+
+  // Xử lý đường dẫn ảnh
+  const getImageUrl = (imagePath: string): string => {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
+    
+    if (!imagePath) {
+      return '/placeholder.svg';
+    }
+    
+    // Kiểm tra xem image đã là URL đầy đủ chưa
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    
+    // Kiểm tra xem image có phải là base64 không
+    if (imagePath.startsWith('data:image')) {
+      return imagePath;
+    }
+    
+    // Nếu là đường dẫn tương đối, thêm backendUrl
+    return `${backendUrl}${imagePath}`;
+  };
+
   // Calculate order totals
-  const subtotal = calculateSubtotal(cartItems);
+  const subtotal = getCartTotal(cartItems);
   const shipping = calculateShipping(subtotal);
   const discount = calculateDiscount(appliedPromoCode, subtotal);
-  const total = calculateTotal(cartItems, appliedPromoCode);
+  const total = subtotal + shipping - discount;
+  
+  // Lấy số lượng sản phẩm trong giỏ hàng
+  const itemCount = getCartItemsCount(cartItems);
 
-  if (isCartEmpty(cartItems)) {
+  if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -109,7 +179,7 @@ const Cart = () => {
           <div>
             <h1 className="font-serif text-3xl font-bold">{t('cart_page.title')}</h1>
             <p className="text-muted-foreground">
-              {getCartItemCount(cartItems)} {t('cart_page.item_count')}
+              {itemCount} {itemCount > 1 ? t('cart_page.items') : t('cart_page.item')}
             </p>
           </div>
         </div>
@@ -118,12 +188,12 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => (
-              <Card key={item.id} className="p-6">
+              <Card key={item._id} className="p-6">
                 <div className="flex items-center space-x-4">
                   {/* Product Image */}
                   <div className="w-20 h-20 rounded-lg overflow-hidden bg-dessert-light flex-shrink-0">
                     <img
-                      src={item.image}
+                      src={getImageUrl(item.image)}
                       alt={item.name}
                       className="w-full h-full object-cover"
                     />
@@ -132,10 +202,13 @@ const Cart = () => {
                   {/* Product Info */}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-lg truncate">
-                      {item.name}
+                      {i18n.language === 'zh' && item.nameZh ? item.nameZh : item.name}
                     </h3>
                     <p className="text-dessert-primary font-semibold">
                       {formatPrice(item.price)}
+                    </p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {i18n.language === 'zh' ? t(`product.unitTypes.${item.unitType}`) : item.unitType}
                     </p>
                   </div>
 
@@ -144,9 +217,11 @@ const Cart = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                      onClick={() => handleUpdateQuantity(item._id, item.quantity - 1)}
+                      className="h-8 w-8 p-0 rounded-full"
+                      disabled={item.quantity <= 1}
                     >
-                      <Minus className="h-4 w-4" />
+                      <Minus className="h-3 w-3" />
                     </Button>
                     <span className="w-12 text-center font-medium">
                       {item.quantity}
@@ -154,9 +229,10 @@ const Cart = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                      onClick={() => handleUpdateQuantity(item._id, item.quantity + 1)}
+                      className="h-8 w-8 p-0 rounded-full"
                     >
-                      <Plus className="h-4 w-4" />
+                      <Plus className="h-3 w-3" />
                     </Button>
                   </div>
 
@@ -171,8 +247,8 @@ const Cart = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleRemoveItem(item.id)}
-                    className="text-destructive hover:text-destructive"
+                    onClick={() => handleRemoveItem(item._id)}
+                    className="text-red-500 hover:bg-red-50 hover:text-red-600 rounded-full h-8 w-8 p-0"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
