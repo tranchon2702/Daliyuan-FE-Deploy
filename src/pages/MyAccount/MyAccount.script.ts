@@ -5,7 +5,7 @@ import i18n from '@/i18n'; // Import i18n instance
 import axios from "axios";
 
 // API URL
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL ? import.meta.env.VITE_BACKEND_URL + "/api" : "http://localhost:5000/api";
 
 // ===== TYPES & INTERFACES =====
 export interface UserData {
